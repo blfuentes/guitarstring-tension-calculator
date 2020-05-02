@@ -1,19 +1,19 @@
-using GuitarStringTensionCalculator.Pages;
+﻿using GuitarStringTensionCalculator.Pages;
 using Microsoft.AspNetCore.Components.Testing;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using Xunit;
 
 namespace GSTC.Tests
 {
-    public class CounterTest
+    public class CounterTest : BlazorTestBase
     {
-        private TestHost host = new TestHost();
-
         [Fact]
         public void CountStartsAtZero()
         {
             var component = host.AddComponent<Counter>();
-            
+
             Assert.Equal("Current count: 0", component.Find("p").InnerText);
         }
 

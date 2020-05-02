@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuitarStringTensionCalculator", "GuitarStringTensionCalculator\GuitarStringTensionCalculator.csproj", "{BF81ADB1-3C3A-4B99-9B07-DAF861241A02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSTC.Tests", "GSTC.Tests\GSTC.Tests.csproj", "{937024DC-0E80-4472-9C9C-A08E71E992DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GSTC.Tests", "GSTC.Tests\GSTC.Tests.csproj", "{937024DC-0E80-4472-9C9C-A08E71E992DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.DLL", "Calculator.DLL\Calculator.DLL.csproj", "{A3A61361-7ECD-459F-983D-696BE03D7607}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{937024DC-0E80-4472-9C9C-A08E71E992DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{937024DC-0E80-4472-9C9C-A08E71E992DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{937024DC-0E80-4472-9C9C-A08E71E992DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3A61361-7ECD-459F-983D-696BE03D7607}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3A61361-7ECD-459F-983D-696BE03D7607}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3A61361-7ECD-459F-983D-696BE03D7607}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3A61361-7ECD-459F-983D-696BE03D7607}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
