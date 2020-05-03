@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuitarStringTensionCalculat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GSTC.Tests", "GSTC.Tests\GSTC.Tests.csproj", "{937024DC-0E80-4472-9C9C-A08E71E992DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.DLL", "Calculator.DLL\Calculator.DLL.csproj", "{A3A61361-7ECD-459F-983D-696BE03D7607}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator.DLL", "Calculator.DLL\Calculator.DLL.csproj", "{A3A61361-7ECD-459F-983D-696BE03D7607}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GSTC.bUnit", "GSTC.bUnit\GSTC.bUnit.csproj", "{4B9988AF-F710-4F8B-BF6D-563D57799B45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{A3A61361-7ECD-459F-983D-696BE03D7607}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3A61361-7ECD-459F-983D-696BE03D7607}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3A61361-7ECD-459F-983D-696BE03D7607}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B9988AF-F710-4F8B-BF6D-563D57799B45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B9988AF-F710-4F8B-BF6D-563D57799B45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B9988AF-F710-4F8B-BF6D-563D57799B45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B9988AF-F710-4F8B-BF6D-563D57799B45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
