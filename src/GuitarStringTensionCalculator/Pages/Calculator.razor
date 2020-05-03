@@ -1,0 +1,36 @@
+﻿@page "/calculator"
+<h3>Calculator</h3>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-10">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="_numberofstringsselector" class="font-weight-bold">Select number of strings: </label>
+                    <select id="_numberofstringsselector" class="custom-select" @onchange=@SelectNumberOfStrings>
+                        <option selected>&lt;number of strings&gt;</option>
+                        @for (int idx = 1; idx <= 10; idx++)
+                        {
+                            <option value=@idx>@idx</option>
+                        }
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="col-1">
+            <div class="col-1"><input id="_result_numberofstrings" @bind="numberofStrings" /></div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+    private int numberofStrings { get; set; }
+    void SelectNumberOfStrings(ChangeEventArgs e)
+    {
+        int tmpValue = 0;
+        if (int.TryParse((string)e.Value, out tmpValue))
+            numberofStrings = tmpValue;
+    }
+}
