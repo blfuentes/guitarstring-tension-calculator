@@ -15,6 +15,12 @@ namespace Calculator.DLL
 
             return result;
         }
+
+        public List<string> BaseNoteNames => new List<string>()
+        {
+            "C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B" 
+        };
+
         private List<MusicalNote> BaseMusicalNotes => new List<MusicalNote>()
         {
             // octave 0
