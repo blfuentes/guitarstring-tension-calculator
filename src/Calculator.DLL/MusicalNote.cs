@@ -11,7 +11,6 @@ namespace Calculator.DLL
         {
             this.Name = name;
             this.Octave = octave;
-            _freqrepo = new FreqRepo();
             this.Frequency = _freqrepo.GetMusicalNote(name, octave).Frequency;
         }
 
@@ -26,7 +25,7 @@ namespace Calculator.DLL
 
         }
 
-        private FreqRepo _freqrepo;
+        private FreqRepo _freqrepo => new FreqRepo();
 
         public string FullName => $"{Name}{Octave}";
         public string Name { get; set; }

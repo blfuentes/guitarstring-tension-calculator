@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace GSTC.bUnit
 {
-    public class CalculatorComponentTest : ComponentTestFixture
+    public class GeneratorComponentTest : ComponentTestFixture
     {
         [Fact]
         public void InitialHtmlIsCorrect()
         {
-            // Arrange - renders the Calculator component
-            var cut = RenderComponent<_pages.Calculator>();
+            // Arrange - renders the Generator component
+            var cut = RenderComponent<_pages.Generator>();
             cut.Find("#_result_numberofstrings").GetAttribute("value").ShouldBe("0");
             cut.Find("select").Change(new ChangeEventArgs() { Value = "6" });
             cut.Find("#_result_numberofstrings").GetAttribute("value").ShouldBe("6");
