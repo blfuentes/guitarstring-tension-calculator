@@ -9,9 +9,11 @@ namespace Calculator.DLL
         public GuitarString(string prefix, string diameter, double length, MusicalNote note, StringMaterial material)
         {
             this.Diameter = double.Parse($"0.{diameter}") * _PULGADA_;
-            this.Length = length * _PULGADA_;
+            this.Length_INCH = length;
+            //this.Length = length * _PULGADA_;
             this.Note = note;
             this.Material = material;
+            this.Prefix = prefix;
             this.UW = UnitWeightRepo.GetUnitWeight(prefix, diameter);
         }
 
@@ -24,10 +26,20 @@ namespace Calculator.DLL
         const double _LIBRA_ = 2.204620823516057;
 
         public double Diameter { get; set; } // mm
-        public double Length { get; set; } // m
+        public double Diameter_INCH => Diameter / _PULGADA_;
+
+        public double Length => Length_INCH * _PULGADA_; // m
+        public double Length_MM => Math.Round(Length * 1000, 2);
+        public double Length_INCH { get; set; }
+
+        public string LengthDisplay => $"{Length_INCH}\"/{Length_MM}mm";
+
+        public string Prefix { get; set; }
         public MusicalNote Note { get; set; }
         public StringMaterial Material { get; set; }
         public UnitWeight UW { get; set; }
+
+        public string TensionDisplay => $"{Math.Round(StringTension_UW_LB, 1)}LB/{Math.Round(StringTension_UW_KG, 1)}Kg";
 
         #region METHOD_1
         // M = π* (0.5 * d)^2 * ρ

@@ -1,6 +1,7 @@
 ﻿@page "/generator"
 
 @using dll = Calculator.DLL
+@using GuitarStringTensionCalculator.Components
 
 <h3>Generator</h3>
 
@@ -11,10 +12,21 @@
                 <div class="form-group row">
                     <label for="_numberofstringsselector" class="col-2 font-weight-bold">Select number of strings: </label>
                     <select id="_numberofstringsselector" class="col-6 custom-select" @onchange=@SelectNumberOfStrings>
-                        <option selected>&lt;number of strings&gt;</option>
+                        <option value=0 selected>&lt;number of strings&gt;</option>
                         @for (int idx = 1; idx <= 10; idx++)
                         {
                             <option value=@idx>@idx</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group row">
+                    <label for="_scalelengthselector" class="col-2 font-weight-bold">Select scale length: </label>
+                    <select id="_scalelengthselector" class="col-6 custom-select" @onchange=@SelectScaleLength>
+                        <option value=0 selected>&lt;scale length&gt;</option>
+                        @foreach (var scale in dll.ScaleLengthRepo.Scales)
+                        {
+                            <option value=@scale.Key>@scale.Value</option>
                         }
                     </select>
                 </div>
@@ -28,7 +40,6 @@
                     else
                     {
                         <select id="_tuningselector" class="col-6 custom-select" value="@selectedTuning.Semitones" @onchange="@SelectTuning">
-                            <option>&lt;tuning&gt;</option>
                             @foreach (var tuning in Tunings)
                             {
                                 <option value="@(tuning.Semitones)">@tuning.ToString()</option>
@@ -36,11 +47,25 @@
                         </select>
                     }
                 </div>
+                <div class="form-group row">
+                    <label for="_tuningDisplay" class="col-2 font-weight-bold">Editor: </label>
+                    @if (numberofStrings == 0 || scaleLength == 0 || selectedTuning is null)
+                    {
+                        <p><em>Please select &lt;number of strings&gt;, &lt;scale&gt; and &lt;tuning&gt;</em></p>
+                    }
+                    else
+                    {
+                        <div class="col-6">
+                            <TuningComponent NumberOfStrings="@numberofStrings" ScaleLength="@scaleLength" Tuning="@selectedTuning" />
+                        </div>
+                    }
+                </div>
             </form>
         </div>
         <div class="col-1">
             <div class="col-1">
                 <input id="_result_numberofstrings" @bind="numberofStrings" />
+                <input id="_result_selectedscaleLength" @bind="scaleLength" />
                 <input id="_result_selectedtuning" @bind="selectedTuning.Semitones" />
             </div>
         </div>
@@ -49,6 +74,7 @@
 
 
 @code {
+
     //
     List<dll.Tuning> Tunings = null;
     dll.Tuning selectedTuning = new dll.Tuning();
@@ -59,6 +85,7 @@
         selectedTuning = Tunings.FirstOrDefault(_t => _t.Semitones == 0);
     }
 
+    //
     private async Task<List<dll.Tuning>> GetTuningsAsync()
     {
         List<dll.Tuning> tmpTunings = new List<dll.Tuning>();
@@ -80,6 +107,15 @@
         int tmpValue = 0;
         if (int.TryParse((string)e.Value, out tmpValue))
             numberofStrings = tmpValue;
+    }
+
+    // SelectScaleLength
+    private double scaleLength { get; set; }
+    void SelectScaleLength(ChangeEventArgs e)
+    {
+        double tmpValue = 0;
+        if (double.TryParse((string)e.Value, out tmpValue))
+            scaleLength = tmpValue;
     }
 
     // SelectNumberOfStrings

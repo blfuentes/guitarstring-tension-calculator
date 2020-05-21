@@ -20,3 +20,6 @@ https://wahiduddin.net/calc/calc_guitar_string.htm
 https://tension.stringjoy.com/
 
 http://web.daddario.com/StringTensionPro/SetBuilder?set=EXL110+
+
+https://github.com/mariusmuntean/ChartJs.Blazor
+

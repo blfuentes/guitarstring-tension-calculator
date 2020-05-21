@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
+using Calculator.DLL.Helpers;
 
 namespace Calculator.DLL
 {
@@ -48,18 +50,30 @@ namespace Calculator.DLL
             }
         }
 
+        public override string ToString()
+        {
+            return (this.Material.ToStringEnums());
+        }
+
     }
 
     public enum MaterialType
     {
+        [Description("Gut")]
         GUT,
+        [Description("Nylon")]
         NYLON,
+        [Description("Steel")]
         STEEL,
+        [Description("Stainless steel")]
         STAINLESS_STEEL,
-        
+
         //
+        [Description("Plain steel")]
         PLAIN_STEEL,
+        [Description("Nickel plated")]
         NICKEL_PLATED,
+        [Description("Chromes")]
         CHROMES
     }
 }
