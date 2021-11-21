@@ -1,0 +1,78 @@
+﻿@using dll = Calculator.DLL
+@using System.Threading.Tasks
+
+
+<div class="container">
+    @if (StringSet is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-1"><span style="font-weight:bold;">Note</span></div>
+            <div class="col-3"><span style="font-weight:bold;">Scale</span></div>
+            <div class="col-1"><span style="font-weight:bold;">Type</span></div>
+            <div class="col-1"><span class="fas fa-circle-notch"></span></div>
+            <div class="col-3"><span style="font-weight:bold;">Material</span></div>
+            <div class="col-3"><span style="font-weight:bold;">Tension</span></div>
+        </div>
+        foreach (var gString in StringSet.StringCollection)
+        {
+
+            <div class="row">
+                <div class="col-1">@gString.Note.FullName</div>
+                <div class="col-3">@gString.LengthDisplay</div>
+                <div class="col-1">@gString.Prefix</div>
+                <div class="col-1">@gString.Diameter_INCH</div>
+                <div class="col-3">@gString.Material.ToString()</div>
+                <div class="col-3">@gString.TensionDisplay</div>
+            </div>
+        }
+        <div class="row">
+
+        </div>
+    }
+</div>
+
+
+@code {
+    [Parameter]
+    public int NumberOfStrings { get; set; }
+    [Parameter]
+    public double ScaleLength { get; set; }
+    [Parameter]
+    public dll.Tuning Tuning { get; set; }
+
+    public dll.StringSet StringSet { get; set; }
+
+    //
+    protected override async Task OnInitializedAsync()
+    {
+        // defaults
+        string[] prefixes = new string[NumberOfStrings];
+        prefixes[0] = "PL";
+        prefixes[1] = "PL";
+        prefixes[2] = "PL";
+        prefixes[3] = "NW";
+        prefixes[4] = "NW";
+        prefixes[5] = "NW";
+        string[] diameters = new string[NumberOfStrings];
+        diameters[0] = "010";
+        diameters[1] = "013";
+        diameters[2] = "017";
+        diameters[3] = "026";
+        diameters[4] = "036";
+        diameters[5] = "048";
+
+        for (int idx = 6; idx < NumberOfStrings; idx++)
+        {
+            prefixes[idx] = "NW";
+            diameters[idx] = "048";
+        }
+
+        //
+        StringSet = new dll.StringSet(NumberOfStrings, prefixes, diameters, ScaleLength, Tuning.MusicalNotes.ToArray());
+        await Task.Delay(500);
+    }
+}
