@@ -3,6 +3,12 @@
 @using dll = Calculator.DLL
 @using GuitarStringTensionCalculator.Core.Components
 
+@inject AppState AppState
+
+@*@AppState.SelectedNumberOfStrings
+@AppState.SelectedScaleLength
+@AppState.SelectedTuning*@
+
 <h3>Generator</h3>
 
 <div class="container-fluid">
@@ -74,15 +80,14 @@
 
 
 @code {
-
     //
-    List<dll.Tuning> Tunings = null;
+    List<dll.Tuning> Tunings;
     dll.Tuning selectedTuning = new dll.Tuning();
 
     protected override async Task OnInitializedAsync()
     {
         Tunings = await GetTuningsAsync();
-        selectedTuning = Tunings.FirstOrDefault(_t => _t.Semitones == 0);
+        selectedTuning = Tunings.First(_t => _t.Semitones == 0);
     }
 
     //
@@ -107,6 +112,8 @@
         int tmpValue = 0;
         if (int.TryParse((string)e.Value, out tmpValue))
             numberofStrings = tmpValue;
+
+        AppState.SetNumberOfStrings(numberofStrings);
     }
 
     // SelectScaleLength
@@ -116,6 +123,8 @@
         double tmpValue = 0;
         if (double.TryParse((string)e.Value, out tmpValue))
             scaleLength = tmpValue;
+
+        AppState.SetScaleLength(scaleLength);
     }
 
     // SelectNumberOfStrings
@@ -128,5 +137,7 @@
             selectedTuning = Tunings.FirstOrDefault(_t => _t.Semitones == tmpValue);
             semitones = tmpValue;
         }
+
+        AppState.SetTuning(semitones);
     }
 }
