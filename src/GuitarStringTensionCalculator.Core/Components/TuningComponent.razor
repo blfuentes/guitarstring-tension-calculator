@@ -27,9 +27,9 @@
                 <div class="col-3">@gString.TensionDisplay</div>
             </div>
         }
-@*        <div class="row">
+        @*        <div class="row">
             @DateTime.UtcNow
-        </div>*@
+            </div>*@
     }
 </div>
 
@@ -44,59 +44,19 @@
 
     public dll.StringSet StringSet { get; set; }
 
+    // defaults
+    string[] prefixes = new string[9] { "PL", "PL", "PL", "NW", "NW", "NW", "NW", "NW", "NW" };
+    string[] diameters = new string[9] { "010", "013", "017", "026", "036", "048", "052", "064", "080" };
+
     //
     protected override async Task OnInitializedAsync()
     {
-        // defaults
-        string[] prefixes = new string[NumberOfStrings];
-        prefixes[0] = "PL";
-        prefixes[1] = "PL";
-        prefixes[2] = "PL";
-        prefixes[3] = "NW";
-        prefixes[4] = "NW";
-        prefixes[5] = "NW";
-        prefixes[6] = "NW";
-        prefixes[7] = "NW";
-        prefixes[8] = "NW";
-        string[] diameters = new string[NumberOfStrings];
-        diameters[0] = "010";
-        diameters[1] = "013";
-        diameters[2] = "017";
-        diameters[3] = "026";
-        diameters[4] = "036";
-        diameters[5] = "048";
-        diameters[6] = "052";
-        diameters[7] = "064";
-        diameters[8] = "080";
-
         //
         StringSet = new dll.StringSet(NumberOfStrings, prefixes, diameters, ScaleLength, Tuning.MusicalNotes.ToArray());
         await Task.Delay(500);
     }
     protected override async Task OnParametersSetAsync()
     {
-        // defaults
-        string[] prefixes = new string[NumberOfStrings];
-        prefixes[0] = "PL";
-        prefixes[1] = "PL";
-        prefixes[2] = "PL";
-        prefixes[3] = "NW";
-        prefixes[4] = "NW";
-        prefixes[5] = "NW";
-        prefixes[6] = "NW";
-        prefixes[7] = "NW";
-        prefixes[8] = "NW";
-        string[] diameters = new string[NumberOfStrings];
-        diameters[0] = "010";
-        diameters[1] = "013";
-        diameters[2] = "017";
-        diameters[3] = "026";
-        diameters[4] = "036";
-        diameters[5] = "048";
-        diameters[6] = "052";
-        diameters[7] = "064";
-        diameters[8] = "080";
-
         //
         StringSet = new dll.StringSet(NumberOfStrings, prefixes, diameters, ScaleLength, Tuning.MusicalNotes.ToArray());
         await Task.Delay(500);
