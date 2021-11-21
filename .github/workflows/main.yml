@@ -24,10 +24,10 @@ jobs:
     - name: Test
       run: dotnet test .\src\GuitarStringTensionCalculator.Core\ --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish .\src\GuitarStringTensionCalculator.Core\GuitarStringTensionCalculator.Core.csproj -c Release -o website
+      run: dotnet publish .\src\GuitarStringTensionCalculator.Core\GuitarStringTensionCalculator.Core.csproj -c Release -o ${{ github.workspace }}/website
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.2
       with:
         name: website
-        path: guitarstring-tension-calculator/website/**
+        path: ${{ github.workspace }}/website/**
         if-no-files-found: error
