@@ -36,7 +36,7 @@ jobs:
         path: ${{ github.workspace }}/website/**
         if-no-files-found: error
 
-  deploy_staging:
+  deploy_prod:
     needs: build
     runs-on: windows-latest
 
