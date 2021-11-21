@@ -13,7 +13,7 @@
                     <label for="_numberofstringsselector" class="col-2 font-weight-bold">Select number of strings: </label>
                     <select id="_numberofstringsselector" class="col-6 custom-select" @onchange=@SelectNumberOfStrings>
                         <option value=0 selected>&lt;number of strings&gt;</option>
-                        @for (int idx = 1; idx <= 10; idx++)
+                        @for (int idx = 6; idx <= 9; idx++)
                         {
                             <option value=@idx>@idx</option>
                         }
@@ -55,7 +55,7 @@
                     }
                     else
                     {
-                        <div class="col-6">
+                        <div class="col-10">
                             <TuningComponent NumberOfStrings="@numberofStrings" ScaleLength="@scaleLength" Tuning="@selectedTuning" />
                         </div>
                     }
@@ -74,15 +74,14 @@
 
 
 @code {
-
     //
-    List<dll.Tuning> Tunings = null;
+    List<dll.Tuning> Tunings;
     dll.Tuning selectedTuning = new dll.Tuning();
 
     protected override async Task OnInitializedAsync()
     {
         Tunings = await GetTuningsAsync();
-        selectedTuning = Tunings.FirstOrDefault(_t => _t.Semitones == 0);
+        selectedTuning = Tunings.First(_t => _t.Semitones == 0);
     }
 
     //

@@ -62,6 +62,9 @@ namespace Calculator.DLL
             new MusicalNote("D", 3),
             new MusicalNote("A", 2),
             new MusicalNote("E", 2),
+            new MusicalNote("B", 1),
+            new MusicalNote("F#/Gb", 1),
+            new MusicalNote("C#/Db", 1),
         };
 
         public string Name { get; set; }
