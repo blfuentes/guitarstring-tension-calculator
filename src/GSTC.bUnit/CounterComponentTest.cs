@@ -1,13 +1,12 @@
 using System;
 using Xunit;
 using Bunit;
-using Bunit.Mocking.JSInterop;
-using GuitarStringTensionCalculator.Pages;
+using GuitarStringTensionCalculator.Core.Pages;
 using Shouldly;
 
 namespace GSTC.bUnit
 {
-    public class CounterComponentTest : ComponentTestFixture
+    public class CounterComponentTest : TestContext
     {
         [Fact]
         public void InitialHtmlIsCorrect()

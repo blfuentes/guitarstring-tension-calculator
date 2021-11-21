@@ -2,14 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using _pages = GuitarStringTensionCalculator.Pages;
+using _pages = GuitarStringTensionCalculator.Core.Pages;
 using Xunit;
 using Shouldly;
 using Microsoft.AspNetCore.Components;
 
 namespace GSTC.bUnit
 {
-    public class GeneratorComponentTest : ComponentTestFixture
+    public class GeneratorComponentTest : TestContext
     {
         [Fact]
         public void InitialHtmlIsCorrect()

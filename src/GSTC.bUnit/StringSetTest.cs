@@ -30,16 +30,16 @@ namespace GSTC.bUnit
             Assert.Equal(Math.Round(15.4, 1), Math.Round(tmpStringSet_255.StringCollection[1].StringTension_UW_LB, 1));
             Assert.Equal(Math.Round(16.6, 1), Math.Round(tmpStringSet_255.StringCollection[2].StringTension_UW_LB, 1));
             Assert.Equal(Math.Round(18.4, 1), Math.Round(tmpStringSet_255.StringCollection[3].StringTension_UW_LB, 1));
-            Assert.Equal(Math.Round(19.0, 1), Math.Round(tmpStringSet_255.StringCollection[4].StringTension_UW_LB, 1));
-            Assert.Equal(Math.Round(18.3, 1), Math.Round(tmpStringSet_255.StringCollection[5].StringTension_UW_LB, 1));
+            Assert.Equal(Math.Round(19.5, 1), Math.Round(tmpStringSet_255.StringCollection[4].StringTension_UW_LB, 1));
+            Assert.Equal(Math.Round(18.9, 1), Math.Round(tmpStringSet_255.StringCollection[5].StringTension_UW_LB, 1));
 
             //
             Assert.Equal(Math.Round(15.3, 1), Math.Round(tmpStringSet_2475.StringCollection[0].StringTension_UW_LB, 1));
             Assert.Equal(Math.Round(14.5, 1), Math.Round(tmpStringSet_2475.StringCollection[1].StringTension_UW_LB, 1));
             Assert.Equal(Math.Round(15.6, 1), Math.Round(tmpStringSet_2475.StringCollection[2].StringTension_UW_LB, 1));
             Assert.Equal(Math.Round(17.3, 1), Math.Round(tmpStringSet_2475.StringCollection[3].StringTension_UW_LB, 1));
-            Assert.Equal(Math.Round(17.9, 1), Math.Round(tmpStringSet_2475.StringCollection[4].StringTension_UW_LB, 1));
-            Assert.Equal(Math.Round(17.2, 1), Math.Round(tmpStringSet_2475.StringCollection[5].StringTension_UW_LB, 1));
+            Assert.Equal(Math.Round(18.4, 1), Math.Round(tmpStringSet_2475.StringCollection[4].StringTension_UW_LB, 1));
+            Assert.Equal(Math.Round(17.8, 1), Math.Round(tmpStringSet_2475.StringCollection[5].StringTension_UW_LB, 1));
         }
     }
 }

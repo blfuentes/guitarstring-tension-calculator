@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30011.22
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuitarStringTensionCalculator", "GuitarStringTensionCalculator\GuitarStringTensionCalculator.csproj", "{BF81ADB1-3C3A-4B99-9B07-DAF861241A02}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GSTC.Tests", "GSTC.Tests\GSTC.Tests.csproj", "{937024DC-0E80-4472-9C9C-A08E71E992DB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator.DLL", "Calculator.DLL\Calculator.DLL.csproj", "{A3A61361-7ECD-459F-983D-696BE03D7607}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GSTC.bUnit", "GSTC.bUnit\GSTC.bUnit.csproj", "{4B9988AF-F710-4F8B-BF6D-563D57799B45}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuitarStringTensionCalculator.Core", "GuitarStringTensionCalculator.Core\GuitarStringTensionCalculator.Core.csproj", "{DC95E286-0FA3-4ED8-8E7F-28EEAE5AE72B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,14 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BF81ADB1-3C3A-4B99-9B07-DAF861241A02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF81ADB1-3C3A-4B99-9B07-DAF861241A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF81ADB1-3C3A-4B99-9B07-DAF861241A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF81ADB1-3C3A-4B99-9B07-DAF861241A02}.Release|Any CPU.Build.0 = Release|Any CPU
-		{937024DC-0E80-4472-9C9C-A08E71E992DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{937024DC-0E80-4472-9C9C-A08E71E992DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{937024DC-0E80-4472-9C9C-A08E71E992DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{937024DC-0E80-4472-9C9C-A08E71E992DB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3A61361-7ECD-459F-983D-696BE03D7607}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A3A61361-7ECD-459F-983D-696BE03D7607}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3A61361-7ECD-459F-983D-696BE03D7607}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +23,10 @@ Global
 		{4B9988AF-F710-4F8B-BF6D-563D57799B45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B9988AF-F710-4F8B-BF6D-563D57799B45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B9988AF-F710-4F8B-BF6D-563D57799B45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC95E286-0FA3-4ED8-8E7F-28EEAE5AE72B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC95E286-0FA3-4ED8-8E7F-28EEAE5AE72B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC95E286-0FA3-4ED8-8E7F-28EEAE5AE72B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC95E286-0FA3-4ED8-8E7F-28EEAE5AE72B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
