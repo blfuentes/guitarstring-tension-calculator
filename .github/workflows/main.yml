@@ -20,11 +20,11 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore .\src\GuitarStringTensionCalculator.Core\
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build .\src\GuitarStringTensionCalculator.Core\ --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test .\src\GuitarStringTensionCalculator.Core\ --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish **/GuitarStringTensionCalculator.Core.csproj -c Release -o website
+      run: dotnet publish .\src\GuitarStringTensionCalculator.Core\GuitarStringTensionCalculator.Core.csproj -c Release -o website
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.2
       with:
