@@ -3,7 +3,6 @@ Web App to calculate the string tension on guitars
 
 https://guitarstringtensioncalculator.azurewebsites.net/
 
-
 # Sources
 https://davidvanooijen.wordpress.com/calculating-string-tensions/
 
@@ -22,4 +21,3 @@ https://tension.stringjoy.com/
 http://web.daddario.com/StringTensionPro/SetBuilder?set=EXL110+
 
 https://github.com/mariusmuntean/ChartJs.Blazor
-
