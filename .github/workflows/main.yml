@@ -29,5 +29,5 @@ jobs:
       uses: actions/upload-artifact@v2.2.2
       with:
         name: website
-        path: GuitarStringTensionCalculator/website/**
+        path: guitarstring-tension-calculator\guitarstring-tension-calculator/website/**
         if-no-files-found: error
