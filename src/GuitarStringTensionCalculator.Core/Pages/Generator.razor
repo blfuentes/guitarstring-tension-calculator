@@ -3,12 +3,6 @@
 @using dll = Calculator.DLL
 @using GuitarStringTensionCalculator.Core.Components
 
-@inject AppState AppState
-
-@*@AppState.SelectedNumberOfStrings
-@AppState.SelectedScaleLength
-@AppState.SelectedTuning*@
-
 <h3>Generator</h3>
 
 <div class="container-fluid">
@@ -19,7 +13,7 @@
                     <label for="_numberofstringsselector" class="col-2 font-weight-bold">Select number of strings: </label>
                     <select id="_numberofstringsselector" class="col-6 custom-select" @onchange=@SelectNumberOfStrings>
                         <option value=0 selected>&lt;number of strings&gt;</option>
-                        @for (int idx = 1; idx <= 10; idx++)
+                        @for (int idx = 6; idx <= 9; idx++)
                         {
                             <option value=@idx>@idx</option>
                         }
@@ -61,7 +55,7 @@
                     }
                     else
                     {
-                        <div class="col-6">
+                        <div class="col-10">
                             <TuningComponent NumberOfStrings="@numberofStrings" ScaleLength="@scaleLength" Tuning="@selectedTuning" />
                         </div>
                     }
@@ -112,8 +106,6 @@
         int tmpValue = 0;
         if (int.TryParse((string)e.Value, out tmpValue))
             numberofStrings = tmpValue;
-
-        AppState.SetNumberOfStrings(numberofStrings);
     }
 
     // SelectScaleLength
@@ -123,8 +115,6 @@
         double tmpValue = 0;
         if (double.TryParse((string)e.Value, out tmpValue))
             scaleLength = tmpValue;
-
-        AppState.SetScaleLength(scaleLength);
     }
 
     // SelectNumberOfStrings
@@ -137,7 +127,5 @@
             selectedTuning = Tunings.FirstOrDefault(_t => _t.Semitones == tmpValue);
             semitones = tmpValue;
         }
-
-        AppState.SetTuning(semitones);
     }
 }
