@@ -3,8 +3,6 @@ name: .NET Azure deployment
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 env:
   app-name: "GuitarStringTensionCalculator"
