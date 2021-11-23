@@ -26,7 +26,7 @@
                         <option value=0 selected>&lt;scale length&gt;</option>
                         @foreach (var scale in dll.ScaleLengthRepo.Scales)
                         {
-                            <option value=@scale.Key>@scale.Value</option>
+                            <option value=@scale.Value>@scale.Key</option>
                         }
                     </select>
                 </div>
@@ -62,13 +62,16 @@
                 </div>
             </form>
         </div>
-@*        <div class="col-1">
+        @if (isDebug())
+        {
             <div class="col-1">
-                <input id="_result_numberofstrings" @bind="numberofStrings" />
-                <input id="_result_selectedscaleLength" @bind="scaleLength" />
-                <input id="_result_selectedtuning" @bind="selectedTuning.Semitones" />
+                <div class="col-1">
+                    <input id="_result_numberofstrings" @bind="numberofStrings" />
+                    <input id="_result_selectedscaleLength" @bind="scaleLength" />
+                    <input id="_result_selectedtuning" @bind="selectedTuning.Semitones" />
+                </div>
             </div>
-        </div>*@
+        }
     </div>
 </div>
 
@@ -77,6 +80,15 @@
     //
     List<dll.Tuning> Tunings;
     dll.Tuning selectedTuning = new dll.Tuning();
+
+    private bool isDebug()
+    {
+#if DEBUG
+        return true;
+#else
+        return false;
+#endif
+    }
 
     protected override async Task OnInitializedAsync()
     {

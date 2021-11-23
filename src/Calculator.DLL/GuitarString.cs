@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace Calculator.DLL
 {
     public class GuitarString
     {
+        CultureInfo _provider = CultureInfo.CreateSpecificCulture("en-US");
+
         public GuitarString(string prefix, string diameter, double length, MusicalNote note, StringMaterial material)
         {
-            this.Diameter = double.Parse($"0.{diameter}") * _PULGADA_;
+            this.Diameter = double.Parse($"0.{diameter}", _provider) * _PULGADA_;
             this.Length_INCH = length;
             //this.Length = length * _PULGADA_;
             this.Note = note;
@@ -27,12 +31,12 @@ namespace Calculator.DLL
 
         public double Diameter { get; set; } // mm
         public double Diameter_INCH => Diameter / _PULGADA_;
-
+        public string Diameter_INCHDisplay => $"{Math.Round(this.Diameter_INCH, 3),4:F3}";
+        
         public double Length => Length_INCH * _PULGADA_; // m
         public double Length_MM => Math.Round(Length * 1000, 2);
         public double Length_INCH { get; set; }
-
-        public string LengthDisplay => $"{Length_INCH}\"/{Length_MM}mm";
+        public string LengthDisplay => ScaleLengthRepo.Scales.First(_k => _k.Value ==this.Length_INCH).Key;
 
         public string Prefix { get; set; }
         public MusicalNote Note { get; set; }
