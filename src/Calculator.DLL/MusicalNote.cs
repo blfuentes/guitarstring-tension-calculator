@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Calculator.DLL
 {
     public class MusicalNote : ICloneable
     {
+        public MusicalNote (string fullName)
+        {
+            var matches = Regex.Matches(fullName, @"-?\d+");
+            this.Name = fullName.Replace(matches[0].Value, "");
+            this.Octave = int.Parse(matches[0].Value);
+            this.Frequency = _freqrepo.GetMusicalNote(this.Name, this.Octave).Frequency;
+        }
         public MusicalNote(string name, int octave)
         {
             this.Name = name;

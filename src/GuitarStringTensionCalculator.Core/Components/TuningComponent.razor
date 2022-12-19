@@ -9,8 +9,8 @@
     else
     {
         <div class="row">
-            <div class="col-1"><span style="font-weight:bold;">Note</span></div>
-            <div class="col-3"><span style="font-weight:bold;">Scale</span></div>
+            <div class="col-2"><span style="font-weight:bold;">Note</span></div>
+            <div class="col-2"><span style="font-weight:bold;">Scale</span></div>
             <div class="col-1"><span style="font-weight:bold;">Type</span></div>
             <div class="col-1"><span class="fas fa-circle-notch"></span></div>
             <div class="col-3"><span style="font-weight:bold;">Material</span></div>
@@ -19,12 +19,19 @@
         foreach (var gString in StringSet.StringCollection)
         {
             <div class="row">
-                <div class="col-1">@gString.Note.FullName</div>
-                <div class="col-3">@gString.LengthDisplay</div>
+                <div class="col-2">
+                    <select id="_tuningselector" class="custom-select" value="@gString.Note.FullName" @onchange="args => SelectNote(gString.Note.FullName, args)">
+                        @foreach (var note in Notes)
+                        {
+                            <option value=@note.FullName>@note.FullName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-2"><label for="@gString.LengthDisplay">@gString.LengthDisplay</label></div>
                 <div class="col-1">@gString.Prefix</div>
                 <div class="col-1">@gString.Diameter_INCHDisplay</div>
                 <div class="col-3">@gString.Material.ToString()</div>
-                <div class="col-3">@gString.TensionDisplay</div>
+                <div class="col-3"><label for="@gString.TensionDisplay">@gString.TensionDisplay</label></div>
             </div>
         }
         @*        <div class="row">
@@ -44,6 +51,12 @@
 
     public dll.StringSet StringSet { get; set; }
 
+    public EventCallback<dll.StringSet> StringSetChanged { get; set; }
+
+    //public dll.StringSet StringSet { get; set; }
+
+    public List<dll.MusicalNote> Notes { get; set; }
+
     // defaults
     string[] prefixes = new string[9] { "PL", "PL", "PL", "NW", "NW", "NW", "NW", "NW", "NW" };
     string[] diameters = new string[9] { "010", "013", "017", "026", "036", "048", "052", "064", "080" };
@@ -53,6 +66,7 @@
     {
         //
         StringSet = new dll.StringSet(NumberOfStrings, prefixes, diameters, ScaleLength, Tuning.MusicalNotes.ToArray());
+        Notes = await GetNotesAsync();
         await Task.Delay(500);
     }
     protected override async Task OnParametersSetAsync()
@@ -62,4 +76,27 @@
         await Task.Delay(500);
     }
 
+    private async Task<List<dll.MusicalNote>> GetNotesAsync()
+    {
+        List<dll.MusicalNote> tmpNotes = new List<dll.MusicalNote>();
+        dll.FreqRepo freqRepo = new dll.FreqRepo();
+        Task<List<dll.MusicalNote>> obTask = Task.Run(() =>
+        {
+            for (int idx = -5; idx <= 5; idx++)
+                foreach (var n in freqRepo.BaseNoteNames)
+                    tmpNotes.Add(new dll.MusicalNote(n, idx));
+
+            return tmpNotes;
+        });
+
+        return await obTask;
+    }
+    async Task SelectNote(string oldValue, ChangeEventArgs e)
+    {
+        //node = (bool)args.Value;
+        dll.MusicalNote newNote = new dll.MusicalNote(e.Value?.ToString());
+        var oldString = StringSet.StringCollection.First(_n => _n.Note.FullName == oldValue);
+        oldString.Note = newNote;
+        await StringSetChanged.InvokeAsync(StringSet);
+    }
 }
