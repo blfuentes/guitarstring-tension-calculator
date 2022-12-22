@@ -12,7 +12,7 @@ namespace GSTC.bUnit
         public void StringSet()
         {
             string[] prefixes = new string[6] { "PL", "PL", "PL", "NW", "NW", "NW" };
-            string[] diameters = new string[6] { "010", "013", "017", "026", "036", "048" };
+            double[] diameters = new double[6] { 0.010, 0.013, 0.017, 0.026, 0.036, 0.048 };
             MusicalNote[] notes = new MusicalNote[6]
             {
                 new MusicalNote("E", 4),

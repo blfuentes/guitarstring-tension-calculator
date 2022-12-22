@@ -102,7 +102,7 @@
         List<dll.Tuning> tmpTunings = new List<dll.Tuning>();
         Task<List<dll.Tuning>> obTask = Task.Run(() =>
         {
-            for (int idx = -5; idx <= 5; idx++)
+            for (int idx = -11; idx <= 11; idx++)
                 tmpTunings.Add(new dll.Tuning(idx));
 
             return tmpTunings;

@@ -10,9 +10,10 @@ namespace Calculator.DLL
     {
         CultureInfo _provider = CultureInfo.CreateSpecificCulture("en-US");
 
-        public GuitarString(string prefix, string diameter, double length, MusicalNote note, StringMaterial material)
+        public GuitarString(int order, string prefix, double diameter, double length, MusicalNote note, StringMaterial material)
         {
-            this.Diameter = double.Parse($"0.{diameter}", _provider) * _PULGADA_;
+            this.Position = order;
+            this.Diameter = diameter * _PULGADA_;
             this.Length_INCH = length;
             //this.Length = length * _PULGADA_;
             this.Note = note;
@@ -25,6 +26,9 @@ namespace Calculator.DLL
         {
 
         }
+
+        public int Position { get; set; }
+
         const double _NEWTON_ = 0.1019716213;
         const double _PULGADA_ = 0.0254;
         const double _LIBRA_ = 2.204620823516057;
@@ -43,7 +47,8 @@ namespace Calculator.DLL
         public StringMaterial Material { get; set; }
         public UnitWeight UW { get; set; }
 
-        public string TensionDisplay => $"{Math.Round(StringTension_UW_LB, 1)}LB/{Math.Round(StringTension_UW_KG, 1)}Kg";
+        //public string TensionDisplay => $"{Math.Round(StringTension_UW_LB, 1)}LB/{Math.Round(StringTension_UW_KG, 1)}Kg";
+        public string TensionDisplay => $"{Math.Round(StringTension_LB, 2)}LB/{Math.Round(StringTension_KG, 2)}Kg";
 
         #region METHOD_1
         // M = π* (0.5 * d)^2 * ρ
@@ -51,7 +56,7 @@ namespace Calculator.DLL
 
         // T = 4 * F^2 * L^2 * π * (0.5*d)^2 * ρ
         //public double StringTension => 4 * Math.Pow(Note.Frequency, 2) * Math.Pow(Length, 2) * MassPerUnitOfLength;
-        public double StringTension_KG => _NEWTON_ * Math.Pow(Diameter / 1000.0 * Length * Note.Frequency * Math.Sqrt(Math.PI * Material.Density), 2);
+        public double StringTension_KG => 1000000 * _NEWTON_ * Math.Pow(Diameter / 1000.0 * Length * Note.Frequency * Math.Sqrt(Math.PI * Material.Density), 2);
         public double StringTension_LB => StringTension_KG * _LIBRA_;
         #endregion
 
