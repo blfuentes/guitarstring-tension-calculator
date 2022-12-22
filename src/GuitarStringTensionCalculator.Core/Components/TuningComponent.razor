@@ -12,10 +12,10 @@
     {
         <div class="row">
             <div class="col-2"><span style="font-weight:bold;">Note</span></div>
-            <div class="col-2"><span style="font-weight:bold;">Scale</span></div>
+            <div class="col-3"><span style="font-weight:bold;">Scale ("/mm)</span></div>
             <div class="col-2"><span class="fas fa-circle-notch">Type</span></div>
             <div class="col-3"><span style="font-weight:bold;">Material</span></div>
-            <div class="col-3"><span style="font-weight:bold;">Tension</span></div>
+            <div class="col-1"><span style="font-weight:bold;">Tension</span></div>
         </div>
         foreach (var gString in StringSet.StringCollection)
         {
@@ -28,7 +28,19 @@
                         }
                     </select>
                 </div>
-                <div class="col-2"><label for="@gString.LengthDisplay">@gString.LengthDisplay</label></div>
+                @*<div class="col-2"><label for="@gString.LengthDisplay">@gString.LengthDisplay</label></div>*@
+                <div class="col-3">
+                    <div class="row">
+                        <div class="col">
+                            <input style="width:60px;" id="_stringlengthinch" value="@gString.Length_INCH"
+                                @onchange="args => SetStringLength(gString.Position, true, args)"/>
+                        </div>
+                        <div class="col">
+                            <input style="width:60px;" id="_stringlengthmm" value="@Math.Round(@gString.Length_MM, 0)"
+                                @onchange="args => SetStringLength(gString.Position, false, args)" />
+                        </div>
+                    </div>
+                </div>
                 <div class="col-2">
                     <select id="_prefixdiameterselector" class="custom-select" value="@gString.UW.FullName" @onchange="args => SelectPrefixDiameter(gString.Position, args)">
                         @foreach (var pd in PrefixDiameters)
@@ -45,12 +57,9 @@
                         }
                     </select>
                 </div>
-                <div class="col-3"><label for="@gString.TensionDisplay">@gString.TensionDisplay</label></div>
+                <div class="col-1"><label for="@gString.TensionDisplay">@gString.TensionDisplay</label></div>
             </div>
         }
-        @*        <div class="row">
-            @DateTime.UtcNow
-            </div>*@
     }
 </div>
 
@@ -71,7 +80,7 @@
 
     public List<dll.StringMaterial> Materials { get; set; }
 
-    public List<string> PrefixDiameters{ get; set; }
+    public List<string> PrefixDiameters { get; set; }
 
     // defaults
     string[] prefixes = new string[9] { "PL", "PL", "PL", "NW", "NW", "NW", "NW", "NW", "NW" };
@@ -133,7 +142,14 @@
         oldString.Diameter = newUW.StringDiameter_INCH;
         await StringSetChanged.InvokeAsync(StringSet);
     }
-    
+
+    async Task SetStringLength(int position, bool isInches, ChangeEventArgs e)
+    {
+        var oldString = StringSet.StringCollection.First(_n => _n.Position == position);
+        var newLength = isInches ? double.Parse(e.Value?.ToString()) : Math.Round(double.Parse(e.Value?.ToString()) / 25.4, 1);
+        oldString.Length_INCH = newLength;
+        await StringSetChanged.InvokeAsync(StringSet);
+    }
 
     private T GetEnumValueFromDescription<T>(string description)
     {
@@ -142,11 +158,11 @@
             throw new ArgumentException();
         FieldInfo[] fields = type.GetFields();
         var field = fields
-                        .SelectMany(f => f.GetCustomAttributes(
-                            typeof(DescriptionAttribute), false), (
-                                f, a) => new { Field = f, Att = a })
-                        .Where(a => ((DescriptionAttribute)a.Att)
-                            .Description == description).SingleOrDefault();
+        .SelectMany(f => f.GetCustomAttributes(
+        typeof(DescriptionAttribute), false), (
+        f, a) => new { Field = f, Att = a })
+        .Where(a => ((DescriptionAttribute)a.Att)
+        .Description == description).SingleOrDefault();
         return field == null ? default(T) : (T)field.Field.GetRawConstantValue();
     }
-}
+    }
