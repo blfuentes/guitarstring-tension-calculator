@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col">
                             <input style="width:60px;" id="_stringlengthinch" value="@gString.Length_INCH"
-                                @onchange="args => SetStringLength(gString.Position, true, args)"/>
+                                @onchange="args => SetStringLength(gString.Position, true, args)" />
                         </div>
                         <div class="col">
                             <input style="width:60px;" id="_stringlengthmm" value="@Math.Round(@gString.Length_MM, 0)"
@@ -42,7 +42,8 @@
                     </div>
                 </div>
                 <div class="col-2">
-                    <select id="_prefixdiameterselector" class="custom-select" value="@gString.UW.FullName" @onchange="args => SelectPrefixDiameter(gString.Position, args)">
+                    <select id="_prefixdiameterselector" class="custom-select" value="@gString.UW.FullName" 
+                        @onchange="args => SelectPrefixDiameter(gString.Position, args)">
                         @foreach (var pd in PrefixDiameters)
                         {
                             <option value=@pd>@pd</option>
@@ -50,7 +51,8 @@
                     </select>
                 </div>
                 <div class="col-3">
-                    <select id="_stringmaterialselector" class="custom-select" value="@gString.Material" @onchange="args => SelectMaterial(gString.Position, args)">
+                    <select id="_stringmaterialselector" class="custom-select" value="@gString.Material" 
+                        @onchange="args => SelectMaterial(gString.Position, args)">
                         @foreach (var material in Materials)
                         {
                             <option value=@material>@material</option>
@@ -90,10 +92,10 @@
     protected override async Task OnInitializedAsync()
     {
         //
+        Notes = await GetNotesAsync();
         StringSet = new dll.StringSet(NumberOfStrings, prefixes, diameters, ScaleLength, Tuning.MusicalNotes.ToArray());
         Materials = Enum.GetValues<dll.MaterialType>().Select(_m => new dll.StringMaterial(_m)).ToList();
         PrefixDiameters = dll.UnitWeightRepo.Repository.Select(_s => _s.FullName).ToList();
-        Notes = await GetNotesAsync();
         await Task.Delay(500);
     }
     protected override async Task OnParametersSetAsync()
@@ -158,11 +160,9 @@
             throw new ArgumentException();
         FieldInfo[] fields = type.GetFields();
         var field = fields
-        .SelectMany(f => f.GetCustomAttributes(
-        typeof(DescriptionAttribute), false), (
-        f, a) => new { Field = f, Att = a })
-        .Where(a => ((DescriptionAttribute)a.Att)
-        .Description == description).SingleOrDefault();
+            .SelectMany(f => f.GetCustomAttributes(typeof(DescriptionAttribute), false), (f, a) => new { Field = f, Att = a })
+            .Where(a => ((DescriptionAttribute)a.Att)
+            .Description == description).SingleOrDefault();
         return field == null ? default(T) : (T)field.Field.GetRawConstantValue();
     }
-    }
+}
