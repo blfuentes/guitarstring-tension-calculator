@@ -1,0 +1,32 @@
+﻿@using Blazor.Extensions.Canvas.WebGL;
+@using Blazor.Extensions;
+@using dll = Calculator.DLL
+
+<BECanvas Width="600" Height="300" @ref="_canvasReference"></BECanvas>
+
+@code {
+    [Parameter]
+    public dll.StringSet StringSet { get; set; }
+
+    private WebGLContext _context;
+
+    protected BECanvasComponent _canvasReference;
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        this._context = await this._canvasReference.CreateWebGLAsync();
+
+        // draw points
+        await this._context.DrawArraysAsync(Primitive.POINTS, 0, StringSet.StringCollection.Count);
+        var points = StringSet.StringCollection.SelectMany(s => new[] { (float)s.Position, s.StringTension_KG, 0.0 }).ToArray();
+        await this._context.BindBufferAsync(BufferType.ARRAY_BUFFER, await this._context.CreateBufferAsync());
+        await this._context.BufferDataAsync(BufferType.ARRAY_BUFFER, points, BufferUsageHint.STATIC_DRAW);
+        await this._context.BindBufferAsync(BufferType.ARRAY_BUFFER, null);
+        await this._context.DrawArraysAsync(Primitive.POINTS, 0, StringSet.StringCollection.Count);
+
+        // draw background
+        // await this._context.ClearColorAsync(0, 0, 0, 0.25f);
+        // await this._context.ClearAsync(BufferBits.COLOR_BUFFER_BIT);
+    }
+}
