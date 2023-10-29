@@ -1,0 +1,119 @@
+﻿@using Blazor.Extensions.Canvas.WebGL;
+@using Blazor.Extensions;
+@using Calculator = Calculator.DLL
+
+<BECanvas Width="@_width" Height="@_height" @ref="_canvasReference"></BECanvas>
+
+@code {
+    [Parameter]
+    public Calculator.StringSet StringSet { get; set; }
+
+    private WebGLContext _context;
+
+    protected BECanvasComponent _canvasReference;
+
+    private int _width = 600;
+    private int _height = 300;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // create canvas context
+        this._context = await this._canvasReference.CreateWebGLAsync();
+
+        // defining and storing the geometry
+        var minRangeBase = 0.0f;
+        var maxRangeString = StringSet.StringCollection.Max(s => s.Position) + 1;
+        var maxRangeTension = (float)StringSet.StringCollection.Max(s => s.StringTension_KG) + 3;
+        
+        //
+        var attrSize = 2;
+        var normalizedMinRange = -0.9f;
+        var normalizedMaxRange = 0.9f;
+
+        var vertices = StringSet.StringCollection.SelectMany(s => new[]
+            {
+                NormalizeValue((float)s.Position, minRangeBase, maxRangeString, normalizedMinRange, normalizedMaxRange),
+                NormalizeValue((float)s.StringTension_KG, minRangeBase, maxRangeTension, normalizedMinRange, normalizedMaxRange)
+            }).ToArray();
+
+        // var numberOfPoints = StringSet.StringCollection.Count;
+        var numberOfPoints = vertices.Length / attrSize;
+
+        // create an empty buffer object to store the vertex buffer
+        var vertexBuffer = await this._context.CreateBufferAsync();
+        // bind appropriate array buffer to it
+        await this._context.BindBufferAsync(BufferType.ARRAY_BUFFER, vertexBuffer);
+        // pass the vertex data to the buffer
+        await this._context.BufferDataAsync(BufferType.ARRAY_BUFFER, vertices, BufferUsageHint.STATIC_DRAW);
+        // unbind the buffer
+        await this._context.BindBufferAsync(BufferType.ARRAY_BUFFER, buffer: null);
+
+        // shaders
+        // vertex shader source code
+        var vertCode = @"
+            attribute vec3 coordinates;
+            void main(void) {
+                gl_Position = vec4(coordinates, 1.0);
+                gl_PointSize = 5.0;
+            }";
+
+        // create a vertex shader object
+        var vertShader = await this._context.CreateShaderAsync(ShaderType.VERTEX_SHADER);
+        // attach vertex shader source code
+        await this._context.ShaderSourceAsync(vertShader, vertCode);
+        // compile the vertex shader
+        await this._context.CompileShaderAsync(vertShader);
+        // fragment shader source code
+        var fragCode = @"
+            void main(void) {
+                gl_FragColor = vec4(0.0, 0.0, 0.0, 0.1);
+            }";
+
+        // create fragment shader object
+        var fragShader = await this._context.CreateShaderAsync(ShaderType.FRAGMENT_SHADER);
+        // attach fragment shader source code
+        await this._context.ShaderSourceAsync(fragShader, fragCode);
+        // compile the fragment shader
+        await this._context.CompileShaderAsync(fragShader);
+
+        // create a shader program object to store
+        // the combined shader program
+        var shaderProgram = await this._context.CreateProgramAsync();
+        // attach a vertex shader
+        await this._context.AttachShaderAsync(shaderProgram, vertShader);
+        // attach a fragment shader
+        await this._context.AttachShaderAsync(shaderProgram, fragShader);
+        // link both the programs
+        await this._context.LinkProgramAsync(shaderProgram);
+        // use the combined shader program object
+        await this._context.UseProgramAsync(shaderProgram);
+
+
+        // associate shaders to buffer objects
+        // bind vertex buffer object
+        await this._context.BindBufferAsync(BufferType.ARRAY_BUFFER, vertexBuffer);
+        // get the attribute location
+        var coord = (uint)await this._context.GetAttribLocationAsync(shaderProgram, "coordinates");
+        // point an attribute to the currently bound VBO
+        await this._context.VertexAttribPointerAsync(coord, attrSize, DataType.FLOAT, normalized: false, stride: 0, offset: 0);
+        // enable the attribute
+        await this._context.EnableVertexAttribArrayAsync(coord);
+
+        // drawing the primitive
+        // clear the canvas
+        await this._context.ClearColorAsync(red: 0.5f, green: 0.5f, blue: 0.5f, alpha: 0.9f);
+        // enable the depth test
+        await this._context.EnableAsync(EnableCap.DEPTH_TEST);
+        // clear the color buffer bit
+        await this._context.ClearAsync(BufferBits.COLOR_BUFFER_BIT | BufferBits.DEPTH_BUFFER_BIT);
+        // set the view port
+        await this._context.ViewportAsync(x: 0, y: 0, this._width, this._height);
+        // draw the points
+        await this._context.DrawArraysAsync(Primitive.POINTS, first: 0, numberOfPoints);
+    }
+
+    private float NormalizeValue(float originalValue, float oMinRange, float oMaxRange, float nMinRange, float nMaxRange)
+    {
+        return (nMaxRange - nMinRange) / (oMaxRange - oMinRange) * (originalValue - oMaxRange) + nMaxRange;
+    }
+}

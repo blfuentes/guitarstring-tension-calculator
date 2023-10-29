@@ -1,6 +1,6 @@
 ﻿@page "/generator"
 
-@using dll = Calculator.DLL
+@using Calculator = Calculator.DLL
 @using GuitarStringTensionCalculator.Core.Components
 
 <h3>Generator</h3>
@@ -24,7 +24,7 @@
                     <label for="_scalelengthselector" class="col-2 font-weight-bold">Select scale length: </label>
                     <select id="_scalelengthselector" class="col-6 custom-select" @onchange=@SelectScaleLength>
                         <option value=0 selected>&lt;scale length&gt;</option>
-                        @foreach (var scale in dll.ScaleLengthRepo.Scales)
+                        @foreach (var scale in Calculator.ScaleLengthRepo.Scales)
                         {
                             <option value=@scale.Value>@scale.Key</option>
                         }
@@ -78,8 +78,8 @@
 
 @code {
     //
-    List<dll.Tuning> Tunings;
-    dll.Tuning selectedTuning = new dll.Tuning();
+    List<Calculator.Tuning> Tunings;
+    Calculator.Tuning selectedTuning = new Calculator.Tuning();
 
     private bool isDebug()
     {
@@ -97,13 +97,13 @@
     }
 
     //
-    private async Task<List<dll.Tuning>> GetTuningsAsync()
+    private async Task<List<Calculator.Tuning>> GetTuningsAsync()
     {
-        List<dll.Tuning> tmpTunings = new List<dll.Tuning>();
-        Task<List<dll.Tuning>> obTask = Task.Run(() =>
+        List<Calculator.Tuning> tmpTunings = new List<Calculator.Tuning>();
+        Task<List<Calculator.Tuning>> obTask = Task.Run(() =>
         {
             for (int idx = -11; idx <= 11; idx++)
-                tmpTunings.Add(new dll.Tuning(idx));
+                tmpTunings.Add(new Calculator.Tuning(idx));
 
             return tmpTunings;
         });
