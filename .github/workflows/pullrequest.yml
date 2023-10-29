@@ -20,4 +20,4 @@ jobs:
     - name: Build
       run: dotnet build .\src\GuitarStringTensionCalculator.Core\ --no-restore
     - name: Test
-      run: dotnet test .\src\GuitarStringTensionCalculator.Core\ --no-build --verbosity normal
+      run: dotnet test .\src\GSTC.bUnit\ --verbosity normal
