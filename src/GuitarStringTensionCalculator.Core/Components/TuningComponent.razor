@@ -1,6 +1,6 @@
 ﻿@using System.Reflection;
 @using System.ComponentModel;
-@using dll = Calculator.DLL
+@using Calculator = Calculator.DLL
 @using System.Threading.Tasks
 
 <div class="container">
@@ -74,15 +74,15 @@
     [Parameter]
     public double ScaleLength { get; set; }
     [Parameter]
-    public dll.Tuning Tuning { get; set; }
+    public Calculator.Tuning Tuning { get; set; }
 
-    public dll.StringSet StringSet { get; set; }
+    public Calculator.StringSet StringSet { get; set; }
 
-    public EventCallback<dll.StringSet> StringSetChanged { get; set; }
+    public EventCallback<Calculator.StringSet> StringSetChanged { get; set; }
 
-    public List<dll.MusicalNote> Notes { get; set; }
+    public List<Calculator.MusicalNote> Notes { get; set; }
 
-    public List<dll.StringMaterial> Materials { get; set; }
+    public List<Calculator.StringMaterial> Materials { get; set; }
 
     public List<string> PrefixDiameters { get; set; }
 
@@ -95,27 +95,27 @@
     {
         //
         Notes = await GetNotesAsync();
-        StringSet = new dll.StringSet(NumberOfStrings, prefixes, diameters, ScaleLength, Tuning.MusicalNotes.ToArray());
-        Materials = Enum.GetValues<dll.MaterialType>().Select(_m => new dll.StringMaterial(_m)).ToList();
-        PrefixDiameters = dll.UnitWeightRepo.Repository.Select(_s => _s.FullName).ToList();
+        StringSet = new Calculator.StringSet(NumberOfStrings, prefixes, diameters, ScaleLength, Tuning.MusicalNotes.ToArray());
+        Materials = Enum.GetValues<Calculator.MaterialType>().Select(_m => new Calculator.StringMaterial(_m)).ToList();
+        PrefixDiameters = Calculator.UnitWeightRepo.Repository.Select(_s => _s.FullName).ToList();
         await Task.Delay(500);
     }
     protected override async Task OnParametersSetAsync()
     {
         //
-        StringSet = new dll.StringSet(NumberOfStrings, prefixes, diameters, ScaleLength, Tuning.MusicalNotes.ToArray());
+        StringSet = new Calculator.StringSet(NumberOfStrings, prefixes, diameters, ScaleLength, Tuning.MusicalNotes.ToArray());
         await Task.Delay(500);
     }
 
-    private async Task<List<dll.MusicalNote>> GetNotesAsync()
+    private async Task<List<Calculator.MusicalNote>> GetNotesAsync()
     {
-        List<dll.MusicalNote> tmpNotes = new List<dll.MusicalNote>();
-        dll.FreqRepo freqRepo = new dll.FreqRepo();
-        Task<List<dll.MusicalNote>> obTask = Task.Run(() =>
+        List<Calculator.MusicalNote> tmpNotes = new List<Calculator.MusicalNote>();
+        Calculator.FreqRepo freqRepo = new Calculator.FreqRepo();
+        Task<List<Calculator.MusicalNote>> obTask = Task.Run(() =>
         {
             for (int idx = -5; idx <= 5; idx++)
                 foreach (var n in freqRepo.BaseNoteNames)
-                    tmpNotes.Add(new dll.MusicalNote(n, idx));
+                    tmpNotes.Add(new Calculator.MusicalNote(n, idx));
 
             return tmpNotes;
         });
@@ -124,7 +124,7 @@
     }
     async Task SelectNote(int position, ChangeEventArgs e)
     {
-        dll.MusicalNote newNote = new dll.MusicalNote(e.Value?.ToString());
+        Calculator.MusicalNote newNote = new Calculator.MusicalNote(e.Value?.ToString());
         var oldString = StringSet.StringCollection.First(_n => _n.Position == position);
         oldString.Note = newNote;
         await StringSetChanged.InvokeAsync(StringSet);
@@ -132,8 +132,8 @@
 
     async Task SelectMaterial(int position, ChangeEventArgs e)
     {
-        var materialType = GetEnumValueFromDescription<dll.MaterialType>(e.Value?.ToString());
-        dll.StringMaterial newMaterial = new dll.StringMaterial(materialType);
+        var materialType = GetEnumValueFromDescription<Calculator.MaterialType>(e.Value?.ToString());
+        Calculator.StringMaterial newMaterial = new Calculator.StringMaterial(materialType);
         var oldString = StringSet.StringCollection.First(_n => _n.Position == position);
         oldString.Material = newMaterial;
         await StringSetChanged.InvokeAsync(StringSet);
@@ -141,7 +141,7 @@
     async Task SelectPrefixDiameter(int position, ChangeEventArgs e)
     {
         var oldString = StringSet.StringCollection.First(_n => _n.Position == position);
-        var newUW = dll.UnitWeightRepo.Repository.FirstOrDefault(_s => _s.FullName == e.Value?.ToString());
+        var newUW = Calculator.UnitWeightRepo.Repository.FirstOrDefault(_s => _s.FullName == e.Value?.ToString());
         oldString.UW = newUW;
         oldString.Diameter = newUW.StringDiameter_INCH;
         await StringSetChanged.InvokeAsync(StringSet);
