@@ -20,27 +20,24 @@
         // create canvas context
         this._context = await this._canvasReference.CreateWebGLAsync();
 
-
         // defining and storing the geometry
+        var minRangeBase = 0.0f;
         var maxRangeString = StringSet.StringCollection.Max(s => s.Position) + 1;
         var maxRangeTension = (float)StringSet.StringCollection.Max(s => s.StringTension_KG) + 3;
+        
+        //
+        var attrSize = 2;
+        var normalizedMinRange = -0.9f;
+        var normalizedMaxRange = 0.9f;
+
         var vertices = StringSet.StringCollection.SelectMany(s => new[]
             {
-                NormalizeValue((float)s.StringTension_KG, 0, maxRangeTension, -0.9f, 0.9f),
-                NormalizeValue((float)s.Position, 0, maxRangeString, -0.9f, 0.9f),
-                0.0f
-            }).Take(3).ToArray();
-        // var vertices = new float[]
-        // {
-        //     -0.9f, -0.9f, 0.0f,
-        //     -0.9f, 0.0f, 0.0f,
-        //     0.0f, 0.0f, 0.0f,
-        //     0.9f, 0.0f, 0.0f,
-        //     0.9f, 0.9f, 0.0f
-        // };
+                NormalizeValue((float)s.Position, minRangeBase, maxRangeString, normalizedMinRange, normalizedMaxRange),
+                NormalizeValue((float)s.StringTension_KG, minRangeBase, maxRangeTension, normalizedMinRange, normalizedMaxRange)
+            }).ToArray();
 
         // var numberOfPoints = StringSet.StringCollection.Count;
-        var numberOfPoints = vertices.Length / 3;
+        var numberOfPoints = vertices.Length / attrSize;
 
         // create an empty buffer object to store the vertex buffer
         var vertexBuffer = await this._context.CreateBufferAsync();
@@ -49,7 +46,7 @@
         // pass the vertex data to the buffer
         await this._context.BufferDataAsync(BufferType.ARRAY_BUFFER, vertices, BufferUsageHint.STATIC_DRAW);
         // unbind the buffer
-        await this._context.BindBufferAsync(BufferType.ARRAY_BUFFER, null);
+        await this._context.BindBufferAsync(BufferType.ARRAY_BUFFER, buffer: null);
 
         // shaders
         // vertex shader source code
@@ -98,27 +95,25 @@
         // get the attribute location
         var coord = (uint)await this._context.GetAttribLocationAsync(shaderProgram, "coordinates");
         // point an attribute to the currently bound VBO
-        await this._context.VertexAttribPointerAsync(coord, numberOfPoints, DataType.FLOAT, false, 0, 0);
+        await this._context.VertexAttribPointerAsync(coord, attrSize, DataType.FLOAT, normalized: false, stride: 0, offset: 0);
         // enable the attribute
         await this._context.EnableVertexAttribArrayAsync(coord);
 
         // drawing the primitive
         // clear the canvas
-        await this._context.ClearColorAsync(0.5f, 0.5f, 0.5f, 0.9f);
+        await this._context.ClearColorAsync(red: 0.5f, green: 0.5f, blue: 0.5f, alpha: 0.9f);
         // enable the depth test
         await this._context.EnableAsync(EnableCap.DEPTH_TEST);
         // clear the color buffer bit
         await this._context.ClearAsync(BufferBits.COLOR_BUFFER_BIT | BufferBits.DEPTH_BUFFER_BIT);
         // set the view port
-        await this._context.ViewportAsync(0, 0, this._width, this._height);
+        await this._context.ViewportAsync(x: 0, y: 0, this._width, this._height);
         // draw the points
-        await this._context.DrawArraysAsync(Primitive.POINTS, 0, numberOfPoints);
+        await this._context.DrawArraysAsync(Primitive.POINTS, first: 0, numberOfPoints);
     }
 
     private float NormalizeValue(float originalValue, float oMinRange, float oMaxRange, float nMinRange, float nMaxRange)
     {
-        //newvalue= (max'-min')/(max-min)*(value-max)+max'
         return (nMaxRange - nMinRange) / (oMaxRange - oMinRange) * (originalValue - oMaxRange) + nMaxRange;
-
     }
 }
