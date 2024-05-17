@@ -12,10 +12,10 @@
     {
         <div class="row">
             <div class="col-2"><span style="font-weight:bold;">Note</span></div>
-            <div class="col-3"><span style="font-weight:bold;">Scale ("/mm)</span></div>
-            <div class="col-2"><span class="fas fa-circle-notch">Type</span></div>
-            <div class="col-3"><span style="font-weight:bold;">Material</span></div>
-            <div class="col-1"><span style="font-weight:bold;">Tension</span></div>
+            <div class="col-4"><span style="font-weight:bold;">Scale ("/mm)</span></div>
+            <div class="col-3"><span class="fas fa-circle-notch">Type</span></div>
+            @* <div class="col-3"><span style="font-weight:bold;">Material</span></div> *@
+            <div class="col-2"><span style="font-weight:bold;">Tension</span></div>
         </div>
         foreach (var gString in StringSet.StringCollection)
         {
@@ -29,7 +29,7 @@
                     </select>
                 </div>
                 @*<div class="col-2"><label for="@gString.LengthDisplay">@gString.LengthDisplay</label></div>*@
-                <div class="col-3">
+                <div class="col-4">
                     <div class="row">
                         <div class="col">
                             <input style="width:60px;" id="_stringlengthinch" value="@gString.Length_INCH"
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-3">
                     <select id="_prefixdiameterselector" class="custom-select" value="@gString.UW.FullName" 
                         @onchange="args => SelectPrefixDiameter(gString.Position, args)">
                         @foreach (var pd in PrefixDiameters)
@@ -50,7 +50,7 @@
                         }
                     </select>
                 </div>
-                <div class="col-3">
+@*                 <div class="col-3">
                     <select id="_stringmaterialselector" class="custom-select" value="@gString.Material" 
                         @onchange="args => SelectMaterial(gString.Position, args)">
                         @foreach (var material in Materials)
@@ -58,8 +58,8 @@
                             <option value=@material>@material</option>
                         }
                     </select>
-                </div>
-                <div class="col-1"><label for="@gString.TensionDisplay">@gString.TensionDisplay</label></div>
+                </div> *@
+                <div class="col-2"><label for="@gString.TensionDisplay">@gString.TensionDisplay</label></div>
             </div>
         }
 
