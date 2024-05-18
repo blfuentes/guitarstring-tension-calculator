@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Calculator.DLL\Calculator.DLL.csproj" />
-    <ProjectReference Include="..\GuitarStringTensionCalculator.Core\GuitarStringTensionCalculator.Core.csproj" />
+    <ProjectReference Include="..\GuitarStringTensionCalculator\GuitarStringTensionCalculator.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,5 @@
 ﻿using Bunit;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using _pages = GuitarStringTensionCalculator.Core.Pages;
+using _pages = GuitarStringTensionCalculator.Components.Pages;
 using Xunit;
 using Shouldly;
 using Microsoft.AspNetCore.Components;

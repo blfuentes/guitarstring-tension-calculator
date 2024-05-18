@@ -1,0 +1,52 @@
+﻿@using Calculator = Calculator.DLL
+@using MudBlazor
+
+<div>
+    <MudChart ChartType="ChartType.Line" ChartSeries="@Series" @bind-SelectedIndex="Index" XAxisLabels="@XAxisLabels" Width="100%" Height="350px" ChartOptions="@Options" />
+    <MudGrid>
+        <MudItem xs="6">
+            <MudText Typo="Typo.body1" Class="py-3">Selected: @(Index < 0 ? "None" : Series[Index].Name)</MudText>
+        </MudItem>
+        <MudItem xs="6">
+            <MudSlider @bind-Value="Options.LineStrokeWidth" Min="1" Max="10" Color="Color.Info">Line Width: @Options.LineStrokeWidth.ToString()</MudSlider>
+        </MudItem>
+    </MudGrid>
+</div>
+
+@code {
+    [Parameter]
+    public Calculator.StringSet StringSet { get; set; }
+
+    public List<ChartSeries> Series { get; set; }
+
+    private int Index = -1; //default value cannot be 0 -> first selectedindex is 0.
+
+    public ChartOptions Options = new ChartOptions();
+
+    public string[] XAxisLabels = [];
+
+    protected override async Task OnInitializedAsync()
+
+    {
+        Series = new List<ChartSeries>()
+        {
+            new ChartSeries() { Name = "Tension Chart", Data = StringSet.StringCollection.Select(s => s.StringTension_LB).ToArray() }
+        };
+        XAxisLabels = StringSet.StringCollection.Select(s => s.Note.FullName).ToArray();
+
+
+        Options.MaxNumYAxisTicks = 25;
+        Options.YAxisTicks = 1;
+
+        await Task.Delay(500);
+    }
+    // public DisplayChartComponent()
+    // {
+
+    //     Series = new List<ChartSeries>()
+    //     {
+    //         new ChartSeries() { Name = "Tension Chart", Data = StringSet.StringCollection.Select(s => s.StringTension_LB).ToArray() }
+    //     };
+    //     XAxisLabels = StringSet.StringCollection.Select(s => s.Note.FullName).ToArray();
+    // }
+}

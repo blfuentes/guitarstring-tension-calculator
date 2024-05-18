@@ -1,7 +1,5 @@
 ﻿using Calculator.DLL;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace GSTC.bUnit

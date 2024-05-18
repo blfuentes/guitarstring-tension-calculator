@@ -1,7 +1,6 @@
-using System;
 using Xunit;
 using Bunit;
-using GuitarStringTensionCalculator.Core.Pages;
+using GuitarStringTensionCalculator.Components.Pages;
 using Shouldly;
 
 namespace GSTC.bUnit
