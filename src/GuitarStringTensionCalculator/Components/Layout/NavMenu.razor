@@ -1,4 +1,5 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using MudBlazor
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Guitar Tension calculator</a>
     </div>
@@ -8,17 +9,12 @@
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="generator">
-                <span class="bi bi-calculator" aria-hidden="true"></span> Generator
-            </NavLink>
-        </div>
+        <MudPaper Width="250px" Elevation="0">
+            <MudNavMenu Rounded="true" Margin="Margin.Dense" Color="Color.Primary" Class="pa-2">
+                <MudNavLink Match="NavLinkMatch.All" Href="/" Icon="@Icons.Material.Filled.House">Home</MudNavLink>
+                <MudNavLink Match="NavLinkMatch.All" Href="/generator" Icon="@Icons.Material.Filled.Calculate">Calculator</MudNavLink>
+            </MudNavMenu>
+        </MudPaper>
     </nav>
 </div>
 

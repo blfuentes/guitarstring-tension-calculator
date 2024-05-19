@@ -26,7 +26,6 @@
     public string[] XAxisLabels = [];
 
     protected override async Task OnInitializedAsync()
-
     {
         Series = new List<ChartSeries>()
         {
@@ -36,17 +35,19 @@
 
 
         Options.MaxNumYAxisTicks = 25;
-        Options.YAxisTicks = 1;
+        Options.YAxisTicks = 5;
 
         await Task.Delay(500);
     }
-    // public DisplayChartComponent()
-    // {
 
-    //     Series = new List<ChartSeries>()
-    //     {
-    //         new ChartSeries() { Name = "Tension Chart", Data = StringSet.StringCollection.Select(s => s.StringTension_LB).ToArray() }
-    //     };
-    //     XAxisLabels = StringSet.StringCollection.Select(s => s.Note.FullName).ToArray();
-    // }
+    protected override async Task OnParametersSetAsync()
+    {
+        //
+        Series = new List<ChartSeries>()
+        {
+            new ChartSeries() { Name = "Tension Chart", Data = StringSet.StringCollection.Select(s => s.StringTension_LB).ToArray() }
+        };
+        XAxisLabels = StringSet.StringCollection.Select(s => s.Note.FullName).ToArray();
+        await Task.Delay(500);
+    }
 }

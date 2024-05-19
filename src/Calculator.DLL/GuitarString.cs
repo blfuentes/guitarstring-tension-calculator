@@ -45,8 +45,8 @@ namespace Calculator.DLL
         public StringMaterial Material { get; set; }
         public UnitWeight UW { get; set; }
 
-        public string TensionDisplay => $"{Math.Round(StringTension_LB, 2)}LB/{Math.Round(StringTension_KG, 2)}Kg";
-        //public string TensionDisplay => $"{Math.Round(StringTension_UW_LB, 1)}LB/{Math.Round(StringTension_UW_KG, 1)}Kg";
+        //public string TensionDisplay => $"{Math.Round(StringTension_LB, 2)}LB/{Math.Round(StringTension_KG, 2)}Kg";
+        public string TensionDisplay => $"{Math.Round(StringTension_UW_LB, 1)}LB/{Math.Round(StringTension_UW_KG, 1)}Kg";
 
         #region METHOD_1
         // M = π* (0.5 * d)^2 * ρ

@@ -14,7 +14,6 @@
             <div class="col-2"><span style="font-weight:bold;">Note</span></div>
             <div class="col-3"><span style="font-weight:bold;">Scale ("/mm)</span></div>
             <div class="col-2"><span style="font-weight:bold" class="bi bi-slash-circle">Type</span></div>
-            @* <div class="col-2"><span style="font-weight:bold;">Material</span></div> *@
             <div class="col-1"><span style="font-weight:bold;">Tension</span></div>
         </div>
         foreach (var gString in StringSet.StringCollection)
@@ -28,7 +27,6 @@
                         }
                     </select>
                 </div>
-                @*<div class="col-2"><label for="@gString.LengthDisplay">@gString.LengthDisplay</label></div>*@
                 <div class="col-3">
                     <div class="row">
                         <div class="col">
@@ -50,15 +48,6 @@
                         }
                     </select>
                 </div>
-@*                 <div class="col-2">
-                    <select id="_stringmaterialselector" class="form-select" value="@gString.Material" 
-                        @onchange="args => SelectMaterial(gString.Position, args)">
-                        @foreach (var material in Materials)
-                        {
-                            <option value=@material>@material</option>
-                        }
-                    </select>
-                </div> *@
                 <div class="col-1"><label for="@gString.TensionDisplay">@gString.TensionDisplay</label></div>
             </div>
         }
@@ -130,14 +119,6 @@
         await StringSetChanged.InvokeAsync(StringSet);
     }
 
-    async Task SelectMaterial(int position, ChangeEventArgs e)
-    {
-        var materialType = GetEnumValueFromDescription<Calculator.MaterialType>(e.Value?.ToString());
-        Calculator.StringMaterial newMaterial = new Calculator.StringMaterial(materialType);
-        var oldString = StringSet.StringCollection.First(_n => _n.Position == position);
-        oldString.Material = newMaterial;
-        await StringSetChanged.InvokeAsync(StringSet);
-    }
     async Task SelectPrefixDiameter(int position, ChangeEventArgs e)
     {
         var oldString = StringSet.StringCollection.First(_n => _n.Position == position);
