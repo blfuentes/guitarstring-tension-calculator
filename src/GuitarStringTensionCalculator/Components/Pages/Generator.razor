@@ -8,7 +8,8 @@
 
 <h3>Calculator</h3>
 
-<MudSelect @bind-Value="numberofStrings" Label="Number of strings" AdornmentIcon="@Icons.Material.Filled.RunCircle" AdornmentColor="Color.Primary">
+<MudSelect @bind-Value="numberOfStrings" @bind-Value:after=@AfterNumberOfStringsChanged
+Label="Number of strings" AdornmentIcon="@Icons.Material.Filled.RunCircle" AdornmentColor="Color.Primary" >
     @foreach(var idx in Enumerable.Range(6, 4))
     {
         <MudSelectItem Value="@(idx.ToString())">@idx</MudSelectItem>
@@ -39,13 +40,13 @@ else
 
 <div class="d-flex mud-width-full align-center mt-8">
     <MudText Typo="Typo.subtitle1" Class="mr-2">Selected values: </MudText>
-    <MudChip>@(numberofStrings?.ToString() ?? "Select number of strings")</MudChip>
+    <MudChip>@(numberOfStrings?.ToString() ?? "Select number of strings")</MudChip>
     <MudChip>@(scaleLength?.ToString() ?? "Select scale length")</MudChip>
     <MudChip>@(semitones?.ToString() ?? "Select tuning")</MudChip>
 </div>
 
 <label for="_tuningDisplay" class="col-2 font-weight-bold">Editor: </label>
-@if (string.IsNullOrWhiteSpace(numberofStrings) || string.IsNullOrWhiteSpace(scaleLength) || selectedTuning is null)
+@if (string.IsNullOrWhiteSpace(numberOfStrings) || string.IsNullOrWhiteSpace(scaleLength) || selectedTuning is null)
 {
     <p><em>Please select &lt;number of strings&gt;, &lt;scale&gt; and &lt;tuning&gt;</em></p>
 }
@@ -89,8 +90,12 @@ else
     }
 
     // SelectNumberOfStrings
-    private string numberofStrings { get; set; }
+    private string numberOfStrings { get; set; }
     private int _numOfStrings;
+    private void AfterNumberOfStringsChanged()
+    {
+        Console.WriteLine($"Number of strings: {_numOfStrings}");
+    }
     void SelectNumberOfStrings(ChangeEventArgs e)
     {
         int tmpValue = 0;
