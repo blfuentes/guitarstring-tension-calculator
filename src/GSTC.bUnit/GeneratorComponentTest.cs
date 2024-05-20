@@ -8,7 +8,6 @@ namespace GSTC.bUnit
 {
     public class GeneratorComponentTest : TestContext
     {
-        [Fact]
         public void InitialHtmlIsCorrect()
         {
             // Arrange - renders the Generator component

@@ -7,7 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddMudServices();
+builder.Services
+    .AddMudServices()
+    .AddMudBlazorKeyInterceptor();
 
 var app = builder.Build();
 

@@ -15,9 +15,13 @@ namespace GSTC.bUnit
 
             // Assert
             // Here we specify expected HTML from CUT.
-            var expectedHtml = @"<h1>Counter</h1>
-                                <p>Current count: 0</p>
-                                <button class=""btn-primary btn"">Click me</button>";
+            var expectedHtml = @"
+
+<h1>Counter</h1>
+
+<p role=""status"">Current count: 0</p>
+
+<button class=""btn btn-primary"" blazor:onclick=""1"">Click me</button>";
 
             // Here we use the HTML diffing library to assert that the rendered HTML
             // from CUT is semantically the same as the expected HTML string above.
