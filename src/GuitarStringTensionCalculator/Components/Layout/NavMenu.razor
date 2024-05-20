@@ -1,0 +1,21 @@
+﻿@using MudBlazor
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Guitar Tension calculator</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+        <MudPaper Width="250px" Elevation="0">
+            <MudNavMenu Rounded="true" Margin="Margin.Dense" Color="Color.Primary" Class="pa-2">
+                <MudNavLink Match="NavLinkMatch.All" Href="/" Icon="@Icons.Material.Filled.House">Home</MudNavLink>
+                <MudNavLink Match="NavLinkMatch.All" Href="/generator" Icon="@Icons.Material.Filled.Calculate">Calculator</MudNavLink>
+            </MudNavMenu>
+        </MudPaper>
+    </nav>
+</div>
+

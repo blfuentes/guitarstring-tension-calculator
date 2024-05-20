@@ -1,18 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.31912.275
+VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator.DLL", "Calculator.DLL\Calculator.DLL.csproj", "{A3A61361-7ECD-459F-983D-696BE03D7607}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator.DLL", "Calculator.DLL\Calculator.DLL.csproj", "{95BFA9B7-DA9A-4523-BBD3-FE7E758B6E8E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GSTC.bUnit", "GSTC.bUnit\GSTC.bUnit.csproj", "{4B9988AF-F710-4F8B-BF6D-563D57799B45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GSTC.bUnit", "GSTC.bUnit\GSTC.bUnit.csproj", "{2D04C849-3A91-430D-BBF5-C425B6FF2582}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuitarStringTensionCalculator.Core", "GuitarStringTensionCalculator.Core\GuitarStringTensionCalculator.Core.csproj", "{DC95E286-0FA3-4ED8-8E7F-28EEAE5AE72B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C955251D-8608-4E7C-A2C3-D4DF455BE18A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{B0757EBB-65D1-4AB0-A1F0-98C597EAEFBC}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuitarStringTensionCalculator", "GuitarStringTensionCalculator\GuitarStringTensionCalculator.csproj", "{358B3CE8-073F-4C3C-9D5A-D5053EF17BA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,23 +20,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A3A61361-7ECD-459F-983D-696BE03D7607}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3A61361-7ECD-459F-983D-696BE03D7607}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3A61361-7ECD-459F-983D-696BE03D7607}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3A61361-7ECD-459F-983D-696BE03D7607}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B9988AF-F710-4F8B-BF6D-563D57799B45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B9988AF-F710-4F8B-BF6D-563D57799B45}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B9988AF-F710-4F8B-BF6D-563D57799B45}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B9988AF-F710-4F8B-BF6D-563D57799B45}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC95E286-0FA3-4ED8-8E7F-28EEAE5AE72B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC95E286-0FA3-4ED8-8E7F-28EEAE5AE72B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC95E286-0FA3-4ED8-8E7F-28EEAE5AE72B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC95E286-0FA3-4ED8-8E7F-28EEAE5AE72B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95BFA9B7-DA9A-4523-BBD3-FE7E758B6E8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95BFA9B7-DA9A-4523-BBD3-FE7E758B6E8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95BFA9B7-DA9A-4523-BBD3-FE7E758B6E8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95BFA9B7-DA9A-4523-BBD3-FE7E758B6E8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D04C849-3A91-430D-BBF5-C425B6FF2582}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D04C849-3A91-430D-BBF5-C425B6FF2582}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D04C849-3A91-430D-BBF5-C425B6FF2582}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D04C849-3A91-430D-BBF5-C425B6FF2582}.Release|Any CPU.Build.0 = Release|Any CPU
+		{358B3CE8-073F-4C3C-9D5A-D5053EF17BA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{358B3CE8-073F-4C3C-9D5A-D5053EF17BA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{358B3CE8-073F-4C3C-9D5A-D5053EF17BA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{358B3CE8-073F-4C3C-9D5A-D5053EF17BA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {9C5DE177-8824-4306-8DB5-C3E58B69FE87}
+		SolutionGuid = {7E867F5E-51EF-45A9-B41E-9C8A7888D446}
 	EndGlobalSection
 EndGlobal

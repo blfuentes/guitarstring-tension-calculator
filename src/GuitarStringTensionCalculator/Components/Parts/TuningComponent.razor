@@ -1,0 +1,154 @@
+﻿@using System.Reflection;
+@using System.ComponentModel;
+@using Calculator = Calculator.DLL
+@using System.Threading.Tasks
+
+@rendermode InteractiveServer
+
+
+<div class="container">
+    @if (StringSet is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-2"><span style="font-weight:bold;">Note</span></div>
+            <div class="col-3"><span style="font-weight:bold;">Scale ("/mm)</span></div>
+            <div class="col-2"><span style="font-weight:bold" class="bi bi-slash-circle">Type</span></div>
+            <div class="col-1"><span style="font-weight:bold;">Tension</span></div>
+        </div>
+        foreach (var gString in StringSet.StringCollection)
+        {
+            <div class="row">
+                <div class="col-2">
+                    <select id="_stringnoteselector" class="form-select" value="@gString.Note.FullName" @onchange="args => SelectNote(gString.Position, args)">
+                        @foreach (var note in Notes)
+                        {
+                            <option value=@note.FullName>@note.FullName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-3">
+                    <div class="row">
+                        <div class="col">
+                            <input style="width:60px;" id="_stringlengthinch" value="@gString.Length_INCH"
+                                @onchange="args => SetStringLength(gString.Position, true, args)" />
+                        </div>
+                        <div class="col">
+                            <input style="width:60px;" id="_stringlengthmm" value="@Math.Round(@gString.Length_MM, 0)"
+                                @onchange="args => SetStringLength(gString.Position, false, args)" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <select id="_prefixdiameterselector" class="form-select" value="@gString.UW.FullName" 
+                        @onchange="args => SelectPrefixDiameter(gString.Position, args)">
+                        @foreach (var pd in PrefixDiameters)
+                        {
+                            <option value=@pd>@pd</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-1"><label for="@gString.TensionDisplay">@gString.TensionDisplay</label></div>
+            </div>
+        }
+
+        <DisplayChartComponent StringSet="@StringSet"/>
+    }
+</div>
+
+
+@code {
+    [Parameter]
+    public int NumberOfStrings { get; set; }
+    [Parameter]
+    public double ScaleLength { get; set; }
+    [Parameter]
+    public Calculator.Tuning Tuning { get; set; }
+
+    public Calculator.StringSet StringSet { get; set; }
+
+    public EventCallback<Calculator.StringSet> StringSetChanged { get; set; }
+
+    public List<Calculator.MusicalNote> Notes { get; set; }
+
+    public List<Calculator.StringMaterial> Materials { get; set; }
+
+    public List<string> PrefixDiameters { get; set; }
+
+    // defaults
+    string[] prefixes = new string[9] { "PL", "PL", "PL", "NW", "NW", "NW", "NW", "NW", "NW" };
+    double[] diameters = new double[9] { 0.010, 0.013, 0.017, 0.026, 0.036, 0.048, 0.052, 0.064, 0.080 };
+
+    //
+    protected override async Task OnInitializedAsync()
+    {
+        //
+        Notes = await GetNotesAsync();
+        StringSet = new Calculator.StringSet(NumberOfStrings, prefixes, diameters, ScaleLength, Tuning.MusicalNotes.ToArray());
+        Materials = Enum.GetValues<Calculator.MaterialType>().Select(_m => new Calculator.StringMaterial(_m)).ToList();
+        PrefixDiameters = Calculator.UnitWeightRepo.Repository.Select(_s => _s.FullName).ToList();
+        await Task.Delay(500);
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        //
+        StringSet = new Calculator.StringSet(NumberOfStrings, prefixes, diameters, ScaleLength, Tuning.MusicalNotes.ToArray());
+        await Task.Delay(500);
+    }
+
+    private async Task<List<Calculator.MusicalNote>> GetNotesAsync()
+    {
+        List<Calculator.MusicalNote> tmpNotes = new List<Calculator.MusicalNote>();
+        Calculator.FreqRepo freqRepo = new Calculator.FreqRepo();
+        Task<List<Calculator.MusicalNote>> obTask = Task.Run(() =>
+        {
+            for (int idx = -5; idx <= 5; idx++)
+                foreach (var n in freqRepo.BaseNoteNames)
+                    tmpNotes.Add(new Calculator.MusicalNote(n, idx));
+
+            return tmpNotes;
+        });
+
+        return await obTask;
+    }
+    async Task SelectNote(int position, ChangeEventArgs e)
+    {
+        Calculator.MusicalNote newNote = new Calculator.MusicalNote(e.Value?.ToString());
+        var oldString = StringSet.StringCollection.First(_n => _n.Position == position);
+        oldString.Note = newNote;
+        await StringSetChanged.InvokeAsync(StringSet);
+    }
+
+    async Task SelectPrefixDiameter(int position, ChangeEventArgs e)
+    {
+        var oldString = StringSet.StringCollection.First(_n => _n.Position == position);
+        var newUW = Calculator.UnitWeightRepo.Repository.FirstOrDefault(_s => _s.FullName == e.Value?.ToString());
+        oldString.UW = newUW;
+        oldString.Diameter = newUW.StringDiameter_INCH;
+        await StringSetChanged.InvokeAsync(StringSet);
+    }
+
+    async Task SetStringLength(int position, bool isInches, ChangeEventArgs e)
+    {
+        var oldString = StringSet.StringCollection.First(_n => _n.Position == position);
+        var newLength = isInches ? double.Parse(e.Value?.ToString()) : Math.Round(double.Parse(e.Value?.ToString()) / 25.4, 1);
+        oldString.Length_INCH = newLength;
+        await StringSetChanged.InvokeAsync(StringSet);
+    }
+
+    private T GetEnumValueFromDescription<T>(string description)
+    {
+        var type = typeof(T);
+        if (!type.IsEnum)
+            throw new ArgumentException();
+        FieldInfo[] fields = type.GetFields();
+        var field = fields
+            .SelectMany(f => f.GetCustomAttributes(typeof(DescriptionAttribute), false), (f, a) => new { Field = f, Att = a })
+            .Where(a => ((DescriptionAttribute)a.Att)
+            .Description == description).SingleOrDefault();
+        return field == null ? default(T) : (T)field.Field.GetRawConstantValue();
+    }
+}
