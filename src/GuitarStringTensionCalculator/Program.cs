@@ -7,10 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddMudServices(config =>
-{
-    config.PopoverOptions.Mode = MudBlazor.PopoverMode.Legacy;
-});
+builder.Services.AddMudServices();
 
 var app = builder.Build();
 
