@@ -9,14 +9,15 @@
 <h3>Calculator</h3>
 
 <MudSelect @bind-Value="numberOfStrings" @bind-Value:after=@AfterNumberOfStringsChanged
-Label="Number of strings" AdornmentIcon="@Icons.Material.Filled.RunCircle" AdornmentColor="Color.Primary" >
-    @foreach(var idx in Enumerable.Range(6, 4))
+           Label="Number of strings" AdornmentIcon="@Icons.Material.Filled.RunCircle" AdornmentColor="Color.Primary">
+    @foreach (var idx in Enumerable.Range(6, 4))
     {
         <MudSelectItem Value="@(idx.ToString())">@idx</MudSelectItem>
     }
 </MudSelect>
 
-<MudSelect @bind-Value="scaleLength" Label="Scale length" OpenIcon="@Icons.Material.Filled.Rule" AdornmentColor="Color.Secondary">
+<MudSelect @bind-Value="scaleLength" @bind-Value:after=@AfterScaleLengthChanged
+           Label="Scale length" OpenIcon="@Icons.Material.Filled.Rule" AdornmentColor="Color.Secondary">
     @foreach (var scale in Calculator.ScaleLengthRepo.Scales)
     {
         <MudSelectItem Value="@(scale.Value.ToString())">@scale.Key</MudSelectItem>
@@ -29,7 +30,8 @@ Label="Number of strings" AdornmentIcon="@Icons.Material.Filled.RunCircle" Adorn
 }
 else
 {
-    <MudSelect @bind-Value="semitones" Label="Tuning" OpenIcon="@Icons.Material.Filled.MusicNote" AdornmentColor="Color.Secondary">
+    <MudSelect @bind-Value="semitones" @bind-Value:after=@AfterSemitonesChanged
+               Label="Tuning" OpenIcon="@Icons.Material.Filled.MusicNote" AdornmentColor="Color.Tertiary">
         @foreach (var tuning in Tunings)
         {
             <MudSelectItem Value="@(tuning.Semitones.ToString())">@tuning.ToString()</MudSelectItem>
@@ -40,13 +42,13 @@ else
 
 <div class="d-flex mud-width-full align-center mt-8">
     <MudText Typo="Typo.subtitle1" Class="mr-2">Selected values: </MudText>
-    <MudChip>@(numberOfStrings?.ToString() ?? "Select number of strings")</MudChip>
-    <MudChip>@(scaleLength?.ToString() ?? "Select scale length")</MudChip>
-    <MudChip>@(semitones?.ToString() ?? "Select tuning")</MudChip>
+    <MudChip Color="Color.Primary">@(numberOfStrings?.ToString() ?? "Select number of strings")</MudChip>
+    <MudChip Color="Color.Secondary">@(scaleLength?.ToString() ?? "Select scale length")</MudChip>
+    <MudChip Color="Color.Tertiary">@(selectedTuning?.Name ?? "Select tuning")</MudChip>
 </div>
 
 <label for="_tuningDisplay" class="col-2 font-weight-bold">Editor: </label>
-@if (string.IsNullOrWhiteSpace(numberOfStrings) || string.IsNullOrWhiteSpace(scaleLength) || selectedTuning is null)
+@if (string.IsNullOrWhiteSpace(numberOfStrings) || string.IsNullOrWhiteSpace(scaleLength) || string.IsNullOrWhiteSpace(semitones))
 {
     <p><em>Please select &lt;number of strings&gt;, &lt;scale&gt; and &lt;tuning&gt;</em></p>
 }
@@ -62,16 +64,10 @@ else
     List<Calculator.Tuning> Tunings;
     Calculator.Tuning selectedTuning = new Calculator.Tuning();
 
-    // public Generator()
-    // {
-    //     Tunings = Task.Run(async () => await GetTuningsAsync()).Result;
-    //     selectedTuning = Tunings.First(_t => _t.Semitones == 0);
-    // }
-
     protected override async Task OnInitializedAsync()
     {
         Tunings = await GetTuningsAsync();
-        selectedTuning = Tunings.First(_t => _t.Semitones == 0);
+        // selectedTuning = Tunings.First(_t => _t.Semitones == 0);
     }
 
     //
@@ -94,32 +90,28 @@ else
     private int _numOfStrings;
     private void AfterNumberOfStringsChanged()
     {
-        Console.WriteLine($"Number of strings: {_numOfStrings}");
-    }
-    void SelectNumberOfStrings(ChangeEventArgs e)
-    {
         int tmpValue = 0;
-        if (int.TryParse((string)e.Value, out tmpValue))
+        if (int.TryParse(numberOfStrings, out tmpValue))
             _numOfStrings = tmpValue;
     }
 
     // SelectScaleLength
     private string scaleLength { get; set; }
     private double _scaleLength;
-    void SelectScaleLength(ChangeEventArgs e)
+    private void AfterScaleLengthChanged()
     {
         double tmpValue = 0;
-        if (double.TryParse((string)e.Value, out tmpValue))
+        if (double.TryParse(scaleLength, out tmpValue))
             _scaleLength = tmpValue;
     }
 
     // SelectTuning
     private string semitones { get; set; }
     private int _semitones;
-    void SelectTuning(ChangeEventArgs e)
+    private void AfterSemitonesChanged()
     {
         int tmpValue = 0;
-        if (int.TryParse((string)e.Value, out tmpValue))
+        if (int.TryParse(semitones, out tmpValue))
         {
             selectedTuning = Tunings.FirstOrDefault(_t => _t.Semitones == tmpValue);
             _semitones = tmpValue;
