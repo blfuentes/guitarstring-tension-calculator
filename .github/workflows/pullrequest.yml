@@ -16,8 +16,8 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore .\src\GuitarStringTensionCalculator.Core\
+      run: dotnet restore .\src\GuitarStringTensionCalculator\
     - name: Build
-      run: dotnet build .\src\GuitarStringTensionCalculator.Core\ --no-restore
+      run: dotnet build .\src\GuitarStringTensionCalculator\ --no-restore
     - name: Test
       run: dotnet test .\src\GSTC.bUnit\ --verbosity normal

@@ -20,13 +20,13 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore .\src\GuitarStringTensionCalculator.Core\
+      run: dotnet restore .\src\GuitarStringTensionCalculator\
     - name: Build
-      run: dotnet build .\src\GuitarStringTensionCalculator.Core\ --no-restore
+      run: dotnet build .\src\GuitarStringTensionCalculator\ --no-restore
     - name: Test
       run: dotnet test .\src\GSTC.bUnit\ --verbosity normal
     - name: Publish
-      run: dotnet publish .\src\GuitarStringTensionCalculator.Core\GuitarStringTensionCalculator.Core.csproj -c Release -o ${{ github.workspace }}/website
+      run: dotnet publish .\src\GuitarStringTensionCalculator\GuitarStringTensionCalculator.csproj -c Release -o ${{ github.workspace }}/website
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.2
       with:
