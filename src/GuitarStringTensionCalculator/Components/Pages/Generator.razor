@@ -9,10 +9,10 @@
 <h3>Calculator</h3>
 
 <MudSelect @bind-Value="numberofStrings" Label="Number of strings" AdornmentIcon="@Icons.Material.Filled.RunCircle" AdornmentColor="Color.Primary">
-    @for (int idx = 6; idx <= 9; idx++)
+    @foreach(var idx in Enumerable.Range(6, 4))
     {
-    <MudSelectItem Value="@(idx.ToString())">@idx.ToString()</MudSelectItem>
-    } 
+        <MudSelectItem Value="@(idx.ToString())">@idx</MudSelectItem>
+    }
 </MudSelect>
 
 <MudSelect @bind-Value="scaleLength" Label="Scale length" OpenIcon="@Icons.Material.Filled.Rule" AdornmentColor="Color.Secondary">
