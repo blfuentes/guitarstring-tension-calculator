@@ -8,7 +8,7 @@
 
 <h3>Calculator</h3>
 
-<MudSelect @bind-Value="numberOfStrings" @bind-Value:after=@AfterNumberOfStringsChanged
+<MudSelect id="select-numofstrings" @bind-Value="numberOfStrings" @bind-Value:after=@AfterNumberOfStringsChanged
            Label="Number of strings" AdornmentIcon="@Icons.Material.Filled.RunCircle" AdornmentColor="Color.Primary">
     @foreach (var idx in Enumerable.Range(6, 4))
     {
