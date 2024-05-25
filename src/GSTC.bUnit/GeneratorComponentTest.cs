@@ -1,48 +1,60 @@
 ﻿using Bunit;
-using _pages = GuitarStringTensionCalculator.Components.Pages;
-using Xunit;
-using Shouldly;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using MudBlazor.Services;
+using GSTC.bUnit.Components;
+using GuitarStringTensionCalculator.Components.Pages;
 using MudBlazor;
+using MudBlazor.Services;
+using Shouldly;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using Xunit;
 
 namespace GSTC.bUnit
 {
     public class GeneratorComponentTest : TestContext
     {
+        private const string ExpectedGeneratorComponentMarkupFilePath = "GSTC.bUnit.Outputs.HtmlComponents.Generator.component.output.txt";
+        
+        [Fact]
+        public void Select()
+        {
+            using var ctx = new Bunit.TestContext();
+
+            ctx.JSInterop.Mode = JSRuntimeMode.Loose;
+            ctx.Services.AddMudServices(config =>
+            {
+                config.SnackbarConfiguration.PreventDuplicates = true;
+                config.SnackbarConfiguration.NewestOnTop = false;
+                config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
+                config.PopoverOptions.ThrowOnDuplicateProvider = false;
+            });
+
+            var cut = ctx.RenderComponent<GeneratorTestWrapper>();
+            cut.Find("div.mud-input-control").Click();
+            cut.FindAll("div.mud-list-item").Count.ShouldBeGreaterThan(0); // using FluentAssertions
+        }
+
         [Fact]
         public void InitialHtmlIsCorrect()
         {
-            Services.AddMudServices();
-            Services.AddMudBlazorKeyInterceptor();
+            var assembly = Assembly.GetExecutingAssembly();
+            using var stream = assembly.GetManifestResourceStream(ExpectedGeneratorComponentMarkupFilePath);
+            using var reader = new StreamReader(stream);
+            var expectedMarkup = reader.ReadToEnd();
 
-            JSInterop.SetupVoid("mudPopover.initialize", _ => true);
-            JSInterop.SetupVoid("mudPopover.connect", _ => true);
-            JSInterop.SetupVoid("mudKeyInterceptor.connect", _ => true);
-            JSInterop.SetupVoid("mudKeyInterceptor.updatekey", _ => true);
+            using var ctx = new Bunit.TestContext();
 
-            // Arrange - renders the Generator component
-            var comp = RenderComponent<_pages.Generator>();
-            var select = comp.FindComponent<MudSelect<string>>();
-            //var menu = comp.Find("div.mud-popover");
-            var input = comp.Find("div.mud-input-control");
-            // check popover class
-            //menu.ClassList.ShouldContain("select-popover-class");
-            // check initial state
-            select.Instance.Value.ShouldBeNullOrEmpty();
-            input.Click();
-            comp.WaitForAssertion(() => comp.FindAll("div.mud-list-item").Count.ShouldBeGreaterThan(0));
-            var items = comp.FindAll("div.mud-list-item").ToArray();
-            items[1].Click();
-            select.Instance.Value.ShouldBe("7");
+            ctx.JSInterop.Mode = JSRuntimeMode.Loose;
+            ctx.Services.AddMudServices(config =>
+            {
+                config.SnackbarConfiguration.PreventDuplicates = true;
+                config.SnackbarConfiguration.NewestOnTop = false;
+                config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
+                config.PopoverOptions.ThrowOnDuplicateProvider = false;
+            });
 
-            //cut.Find("#_result_numberofstrings").GetAttribute("value").ShouldBe("0");
-            //cut.Find("select").Change(new ChangeEventArgs() { Value = "6" });
-            //cut.Find("#_result_numberofstrings").GetAttribute("value").ShouldBe("6");
-            //cut.Find("select").Change(new ChangeEventArgs() { Value = "" });
-            //cut.Find("#_result_numberofstrings").GetAttribute("value").ShouldBe("6");
+            var cut = ctx.RenderComponent<GeneratorTestWrapper>();
+            cut.Markup.ShouldContain(expectedMarkup);
         }
     }
 }
