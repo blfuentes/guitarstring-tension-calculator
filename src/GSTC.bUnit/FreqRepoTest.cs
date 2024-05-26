@@ -9,6 +9,7 @@ namespace GSTC.bUnit
         [Fact]
         public void GetMusicalNote()
         {
+            // Arrange
             FreqRepo tmp = new FreqRepo();
             var C1_test = tmp.GetMusicalNote("C", 1);
             var D2_test = tmp.GetMusicalNote("D", 2);
@@ -18,6 +19,7 @@ namespace GSTC.bUnit
             var A6_test = tmp.GetMusicalNote("A", 6);
             var B7_test = tmp.GetMusicalNote("B", 7);
 
+            // Assert
             Assert.Equal(Math.Round(32.703, 1), Math.Round(C1_test.Frequency, 1));
             Assert.Equal(Math.Round(73.416, 1), Math.Round(D2_test.Frequency, 1));
             Assert.Equal(Math.Round(164.814, 1), Math.Round(E3_test.Frequency, 1));
