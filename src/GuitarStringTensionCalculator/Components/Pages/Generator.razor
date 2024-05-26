@@ -8,7 +8,7 @@
 
 <h3>Calculator</h3>
 
-<MudSelect @bind-Value="numberOfStrings" @bind-Value:after=@AfterNumberOfStringsChanged
+<MudSelect id="select-numofstrings" @bind-Value="numberOfStrings" @bind-Value:after=@AfterNumberOfStringsChanged
            Label="Number of strings" AdornmentIcon="@Icons.Material.Filled.RunCircle" AdornmentColor="Color.Primary">
     @foreach (var idx in Enumerable.Range(6, 4))
     {
@@ -16,7 +16,7 @@
     }
 </MudSelect>
 
-<MudSelect @bind-Value="scaleLength" @bind-Value:after=@AfterScaleLengthChanged
+<MudSelect id="select-scalelength" @bind-Value="scaleLength" @bind-Value:after=@AfterScaleLengthChanged
            Label="Scale length" OpenIcon="@Icons.Material.Filled.Rule" AdornmentColor="Color.Secondary">
     @foreach (var scale in Calculator.ScaleLengthRepo.Scales)
     {
@@ -30,7 +30,7 @@
 }
 else
 {
-    <MudSelect @bind-Value="semitones" @bind-Value:after=@AfterSemitonesChanged
+    <MudSelect id="select-semitones" @bind-Value="semitones" @bind-Value:after=@AfterSemitonesChanged
                Label="Tuning" OpenIcon="@Icons.Material.Filled.MusicNote" AdornmentColor="Color.Tertiary">
         @foreach (var tuning in Tunings)
         {
@@ -55,7 +55,7 @@ else
 else
 {
     <div class="col-10">
-        <TuningComponent NumberOfStrings="@_numOfStrings" ScaleLength="@_scaleLength" Tuning="@selectedTuning" />
+        <TuningComponent id="component-tuning" NumberOfStrings="@_numOfStrings" ScaleLength="@_scaleLength" Tuning="@selectedTuning" />
     </div>
 }
 

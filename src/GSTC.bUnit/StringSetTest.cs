@@ -9,6 +9,7 @@ namespace GSTC.bUnit
         [Fact]
         public void StringSet()
         {
+            // Arrange
             string[] prefixes = new string[6] { "PL", "PL", "PL", "NW", "NW", "NW" };
             double[] diameters = new double[6] { 0.010, 0.013, 0.017, 0.026, 0.036, 0.048 };
             MusicalNote[] notes = new MusicalNote[6]
@@ -23,7 +24,7 @@ namespace GSTC.bUnit
             var tmpStringSet_255 = new StringSet(6, prefixes, diameters, 25.5, notes);
             var tmpStringSet_2475 = new StringSet(6, prefixes, diameters, 24.75, notes);
 
-            //
+            // Assert
             Assert.Equal(Math.Round(16.2, 1), Math.Round(tmpStringSet_255.StringCollection[0].StringTension_UW_LB, 1));
             Assert.Equal(Math.Round(15.4, 1), Math.Round(tmpStringSet_255.StringCollection[1].StringTension_UW_LB, 1));
             Assert.Equal(Math.Round(16.6, 1), Math.Round(tmpStringSet_255.StringCollection[2].StringTension_UW_LB, 1));
@@ -31,7 +32,7 @@ namespace GSTC.bUnit
             Assert.Equal(Math.Round(19.5, 1), Math.Round(tmpStringSet_255.StringCollection[4].StringTension_UW_LB, 1));
             Assert.Equal(Math.Round(18.9, 1), Math.Round(tmpStringSet_255.StringCollection[5].StringTension_UW_LB, 1));
 
-            //
+            // Assert
             Assert.Equal(Math.Round(15.3, 1), Math.Round(tmpStringSet_2475.StringCollection[0].StringTension_UW_LB, 1));
             Assert.Equal(Math.Round(14.5, 1), Math.Round(tmpStringSet_2475.StringCollection[1].StringTension_UW_LB, 1));
             Assert.Equal(Math.Round(15.6, 1), Math.Round(tmpStringSet_2475.StringCollection[2].StringTension_UW_LB, 1));

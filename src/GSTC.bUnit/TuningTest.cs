@@ -9,24 +9,28 @@ namespace GSTC.bUnit
         [Fact]
         public void DefaultTuning()
         {
+            // Arrange
             var tuning = new Tuning();
 
+            // Assert
             Assert.Equal((new MusicalNote("E", 4)), tuning.MusicalNotes.First());
         }
 
         [Fact]
         public void SpecificTuning()
         {
+            // Arrange
             var tuning_minus_2 = new Tuning(-2);
 
+            var tuning_plus_2 = new Tuning(2);
+
+            // Assert
             Assert.Equal((new MusicalNote("E", 4).GetPrev().GetPrev()), tuning_minus_2.MusicalNotes[0]);
             Assert.Equal((new MusicalNote("B", 3).GetPrev().GetPrev()), tuning_minus_2.MusicalNotes[1]);
             Assert.Equal((new MusicalNote("G", 3).GetPrev().GetPrev()), tuning_minus_2.MusicalNotes[2]);
             Assert.Equal((new MusicalNote("D", 3).GetPrev().GetPrev()), tuning_minus_2.MusicalNotes[3]);
             Assert.Equal((new MusicalNote("A", 2).GetPrev().GetPrev()), tuning_minus_2.MusicalNotes[4]);
             Assert.Equal((new MusicalNote("E", 2).GetPrev().GetPrev()), tuning_minus_2.MusicalNotes[5]);
-
-            var tuning_plus_2 = new Tuning(2);
 
             Assert.Equal((new MusicalNote("E", 4).GetNext().GetNext()), tuning_plus_2.MusicalNotes[0]);
             Assert.Equal((new MusicalNote("B", 3).GetNext().GetNext()), tuning_plus_2.MusicalNotes[1]);

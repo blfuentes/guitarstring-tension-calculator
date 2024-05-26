@@ -8,6 +8,7 @@ namespace GSTC.bUnit
         [Fact]
         public void GetPrev()
         {
+            // Arrange
             var firstNote = new MusicalNote("C", 0).GetPrev();
             
             var middleNote = new MusicalNote("A#/Bb", 5).GetPrev();
@@ -19,6 +20,7 @@ namespace GSTC.bUnit
             var lastNote = new MusicalNote("B", 9).GetPrev();
             var lastNoteCheck = new MusicalNote("A#/Bb", 9);
 
+            // Assert
             Assert.Null(firstNote);
             Assert.True(middleNote.Equals(middleNoteCheck));
             Assert.True(middleNotePrevOctave.Equals(middleNotePrevOctaveCheck));
@@ -28,6 +30,7 @@ namespace GSTC.bUnit
         [Fact]
         public void GetNext()
         {
+            // Arrange
             var lastNote = new MusicalNote("B", 9).GetNext();
 
             var middleNote = new MusicalNote("A#/Bb", 5).GetNext();
@@ -39,6 +42,7 @@ namespace GSTC.bUnit
             var firstNote = new MusicalNote("C", 0).GetNext();
             var firstNoteCheck = new MusicalNote("C#/Db", 0);
 
+            // Assert
             Assert.Null(lastNote);
             Assert.True(middleNote.Equals(middleNoteCheck));
             Assert.True(middleNoteNextOctave.Equals(middleNoteNextOctaveCheck));
