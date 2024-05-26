@@ -60,12 +60,15 @@ namespace GSTC.bUnit
             select.Instance.Value.ShouldBeNull();
 
             var input = component.Find("div.mud-input-control");
-            input.Click();
+            component.WaitForAssertion(() =>
+            {
+                input.Click();
 
-            var items = component.FindAll("div.mud-list-item");
-            items.Count.ShouldBeGreaterThan(0);
-            items[1].Click();
-            select.Instance.Value.ShouldBe("7");
+                var items = component.FindAll("div.mud-list-item");
+                items.Count.ShouldBeGreaterThan(0);
+                items[1].Click();
+                select.Instance.Value.ShouldBe("7");
+            });
         }
     }
 }
