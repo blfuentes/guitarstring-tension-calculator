@@ -1,5 +1,6 @@
 ﻿@using System.Reflection;
 @using System.ComponentModel;
+@using Calculator.DLL
 @using Calculator = Calculator.DLL
 @using System.Threading.Tasks
 
@@ -23,12 +24,14 @@
         {
             <div class="row">
                 <div class="col-2">
-                    <select id="_stringnoteselector" class="form-select" value="@gString.Note.FullName" @onchange="args => SelectNote(gString.Position, args)">
+                    <MudSelect id="_stringnoteselector" T="string" Value="@gString.Note.FullName" Text="@gString.Note.FullName" 
+                    ValueChanged="@(note=>SelectNote(gString.Position, note))">
+                    @* ValueChanged="SelectNote"> *@
                         @foreach (var note in Notes)
                         {
-                            <option value=@note.FullName>@note.FullName</option>
+                            <MudSelectItem Value="@(note.FullName)">@note.FullName</MudSelectItem>
                         }
-                    </select>
+                    </MudSelect>
                 </div>
                 <div class="col-3">
                     <div class="row">
@@ -114,13 +117,30 @@
 
         return await obTask;
     }
-    async Task SelectNote(int position, ChangeEventArgs e)
+
+    // async Task SelectNote(GuitarString guitarString)
+    // {
+    //     Calculator.MusicalNote newNote = new Calculator.MusicalNote(guitarString.Note.FullName);
+    //     var oldString = StringSet.StringCollection.First(_n => _n.Position == guitarString.Position);
+    //     oldString.Note = newNote;
+    //     await StringSetChanged.InvokeAsync(StringSet);
+    // }
+
+    async Task SelectNote(int position, string noteValue)
     {
-        Calculator.MusicalNote newNote = new Calculator.MusicalNote(e.Value?.ToString());
+        Calculator.MusicalNote newNote = new Calculator.MusicalNote(noteValue);
         var oldString = StringSet.StringCollection.First(_n => _n.Position == position);
         oldString.Note = newNote;
         await StringSetChanged.InvokeAsync(StringSet);
     }
+
+    // async Task SelectNote(GuitarString guitarString)
+    // {
+    //     Calculator.MusicalNote newNote = new Calculator.MusicalNote(guitarString.Note.FullName);
+    //     var oldString = StringSet.StringCollection.First(_n => _n.Position == guitarString.Position);
+    //     oldString.Note = newNote;
+    //     await StringSetChanged.InvokeAsync(StringSet);
+    // }
 
     async Task SelectPrefixDiameter(int position, ChangeEventArgs e)
     {
