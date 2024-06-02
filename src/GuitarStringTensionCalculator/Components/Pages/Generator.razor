@@ -47,7 +47,6 @@ else
     <MudChip Color="Color.Tertiary">@(selectedTuning?.Name ?? "Select tuning")</MudChip>
 </div>
 
-<label for="_tuningDisplay" class="col-2 font-weight-bold">Editor: </label>
 @if (string.IsNullOrWhiteSpace(numberOfStrings) || string.IsNullOrWhiteSpace(scaleLength) || string.IsNullOrWhiteSpace(semitones))
 {
     <p><em>Please select &lt;number of strings&gt;, &lt;scale&gt; and &lt;tuning&gt;</em></p>
@@ -55,7 +54,7 @@ else
 else
 {
     <div class="col-10">
-        <TuningComponent id="component-tuning" NumberOfStrings="@_numOfStrings" ScaleLength="@_scaleLength" Tuning="@selectedTuning" />
+        <TuningComponent NumberOfStrings="@_numOfStrings" ScaleLength="@_scaleLength" Tuning="@selectedTuning" />
     </div>
 }
 

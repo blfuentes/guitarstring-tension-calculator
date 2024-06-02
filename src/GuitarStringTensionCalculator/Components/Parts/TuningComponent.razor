@@ -1,5 +1,6 @@
 ﻿@using System.Reflection;
 @using System.ComponentModel;
+@using Calculator.DLL
 @using Calculator = Calculator.DLL
 @using System.Threading.Tasks
 
@@ -15,47 +16,45 @@
     {
         <div class="row">
             <div class="col-2"><span style="font-weight:bold;">Note</span></div>
-            <div class="col-3"><span style="font-weight:bold;">Scale ("/mm)</span></div>
+            <div class="col-2"><span style="font-weight:bold;">Scale ("/mm)</span></div>
             <div class="col-2"><span style="font-weight:bold" class="bi bi-slash-circle">Type</span></div>
-            <div class="col-1"><span style="font-weight:bold;">Tension</span></div>
+            <div class="col-2"><span style="font-weight:bold;">Tension</span></div>
         </div>
+
         foreach (var gString in StringSet.StringCollection)
         {
             <div class="row">
                 <div class="col-2">
-                    <select id="_stringnoteselector" class="form-select" value="@gString.Note.FullName" @onchange="args => SelectNote(gString.Position, args)">
+                    <MudSelect id="_stringnoteselector" T="string" Value="@gString.Note.FullName" Text="@gString.Note.FullName"
+                               ValueChanged="@(note=>SelectNote(gString.Position, note))">
                         @foreach (var note in Notes)
                         {
-                            <option value=@note.FullName>@note.FullName</option>
+                            <MudSelectItem Value="@(note.FullName)">@note.FullName</MudSelectItem>
                         }
-                    </select>
-                </div>
-                <div class="col-3">
-                    <div class="row">
-                        <div class="col">
-                            <input style="width:60px;" id="_stringlengthinch" value="@gString.Length_INCH"
-                                @onchange="args => SetStringLength(gString.Position, true, args)" />
-                        </div>
-                        <div class="col">
-                            <input style="width:60px;" id="_stringlengthmm" value="@Math.Round(@gString.Length_MM, 0)"
-                                @onchange="args => SetStringLength(gString.Position, false, args)" />
-                        </div>
-                    </div>
+                    </MudSelect>
                 </div>
                 <div class="col-2">
-                    <select id="_prefixdiameterselector" class="form-select" value="@gString.UW.FullName" 
-                        @onchange="args => SelectPrefixDiameter(gString.Position, args)">
+                    <MudNumericField T="double" id="_stringlengthinch" Value="@gString.Length_INCH" Label="@($"{Math.Round(@gString.Length_MM, 0)}mm")"
+                                     ValueChanged="@(scaleLength => SetStringLength(gString.Position, scaleLength))" />
+                </div>
+                <div class="col-2">
+                    <MudSelect id="_prefixdiameterselector" T="string" Value="@gString.UW.FullName" Text="@gString.UW.FullName"
+                               ValueChanged="@(diameter => SelectPrefixDiameter(gString.Position, diameter))">
                         @foreach (var pd in PrefixDiameters)
                         {
-                            <option value=@pd>@pd</option>
+                            <MudSelectItem Value="@(pd)">@pd</MudSelectItem>
                         }
-                    </select>
+                    </MudSelect>
                 </div>
-                <div class="col-1"><label for="@gString.TensionDisplay">@gString.TensionDisplay</label></div>
+                <div class="col-2">
+                    <MudField id="_stringtensiondisplay" Label="@gString.TensionDisplay" />
+                </div>
             </div>
         }
 
-        <DisplayChartComponent StringSet="@StringSet"/>
+        <div class="row">
+            <DisplayChartComponent StringSet="@StringSet" />
+        </div>
     }
 </div>
 
@@ -114,28 +113,28 @@
 
         return await obTask;
     }
-    async Task SelectNote(int position, ChangeEventArgs e)
+
+    async Task SelectNote(int position, string noteValue)
     {
-        Calculator.MusicalNote newNote = new Calculator.MusicalNote(e.Value?.ToString());
+        Calculator.MusicalNote newNote = new Calculator.MusicalNote(noteValue);
         var oldString = StringSet.StringCollection.First(_n => _n.Position == position);
         oldString.Note = newNote;
         await StringSetChanged.InvokeAsync(StringSet);
     }
 
-    async Task SelectPrefixDiameter(int position, ChangeEventArgs e)
+    async Task SelectPrefixDiameter(int position, string value)
     {
         var oldString = StringSet.StringCollection.First(_n => _n.Position == position);
-        var newUW = Calculator.UnitWeightRepo.Repository.FirstOrDefault(_s => _s.FullName == e.Value?.ToString());
+        var newUW = Calculator.UnitWeightRepo.Repository.FirstOrDefault(_s => _s.FullName == value);
         oldString.UW = newUW;
         oldString.Diameter = newUW.StringDiameter_INCH;
         await StringSetChanged.InvokeAsync(StringSet);
     }
 
-    async Task SetStringLength(int position, bool isInches, ChangeEventArgs e)
+    async Task SetStringLength(int position, double value)
     {
         var oldString = StringSet.StringCollection.First(_n => _n.Position == position);
-        var newLength = isInches ? double.Parse(e.Value?.ToString()) : Math.Round(double.Parse(e.Value?.ToString()) / 25.4, 1);
-        oldString.Length_INCH = newLength;
+        oldString.Length_INCH = value;
         await StringSetChanged.InvokeAsync(StringSet);
     }
 
