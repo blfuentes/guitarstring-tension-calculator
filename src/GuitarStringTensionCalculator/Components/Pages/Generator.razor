@@ -1,4 +1,4 @@
-﻿@page "/generator"
+﻿@page "/"
 @rendermode InteractiveServer
 
 @using Microsoft.AspNetCore.Components
@@ -6,7 +6,9 @@
 @using GuitarStringTensionCalculator.Components
 @using GuitarStringTensionCalculator.Components.Parts
 
-<h3>Calculator</h3>
+<PageTitle>Guitar string calculator</PageTitle>
+
+<h3>Guitar string calculator</h3>
 
 <MudSelect id="select-numofstrings" @bind-Value="numberOfStrings" @bind-Value:after=@AfterNumberOfStringsChanged
            Label="Number of strings" AdornmentIcon="@Icons.Material.Filled.RunCircle" AdornmentColor="Color.Primary">
