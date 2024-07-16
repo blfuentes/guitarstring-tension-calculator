@@ -6,57 +6,53 @@
 
 @rendermode InteractiveServer
 
-
-<div class="container">
-    @if (StringSet is null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else
-    {
-        <div class="row">
-            <div class="col-2"><span style="font-weight:bold;">Note</span></div>
-            <div class="col-2"><span style="font-weight:bold;">Scale ("/mm)</span></div>
-            <div class="col-2"><span style="font-weight:bold" class="bi bi-slash-circle">Type</span></div>
-            <div class="col-2"><span style="font-weight:bold;">Tension</span></div>
-        </div>
-
-        foreach (var gString in StringSet.StringCollection)
-        {
-            <div class="row">
-                <div class="col-2">
-                    <MudSelect id="_stringnoteselector" T="string" Value="@gString.Note.FullName" Text="@gString.Note.FullName"
-                               ValueChanged="@(note=>SelectNote(gString.Position, note))">
+@if (StringSet is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MudDataGrid T="GuitarString" Items="@StringSet.StringCollection" ReadOnly="false" EditMode="DataGridEditMode.Cell"
+                 Bordered="true">
+        <Columns>
+            <PropertyColumn Property="gString => gString.Note">
+                <EditTemplate>
+                    <MudSelect id="_stringnoteselector" T="string" Value="context.Item.Note.FullName" Text="@context.Item.Note.FullName"
+                               ValueChanged="@(note=>SelectNote(context.Item.Position, note))">
                         @foreach (var note in Notes)
                         {
                             <MudSelectItem Value="@(note.FullName)">@note.FullName</MudSelectItem>
                         }
                     </MudSelect>
-                </div>
-                <div class="col-2">
-                    <MudNumericField T="double" id="_stringlengthinch" Value="@gString.Length_INCH" Label="@($"{Math.Round(@gString.Length_MM, 0)}mm")"
-                                     ValueChanged="@(scaleLength => SetStringLength(gString.Position, scaleLength))" />
-                </div>
-                <div class="col-2">
-                    <MudSelect id="_prefixdiameterselector" T="string" Value="@gString.UW.FullName" Text="@gString.UW.FullName"
-                               ValueChanged="@(diameter => SelectPrefixDiameter(gString.Position, diameter))">
+                </EditTemplate>
+            </PropertyColumn>
+
+            <PropertyColumn Property="gString => gString.Length_INCH" Title="@("Scale (\"/mm)")">
+                <EditTemplate>
+                    <MudNumericField T="double" id="_stringlengthinch" Value="context.Item.Length_INCH" Label="@($"{Math.Round(@context.Item.Length_MM, 0)}mm")"
+                                     ValueChanged="@(scaleLength => SetStringLength(context.Item.Position, scaleLength))"
+                                     Style="padding-top:5px;" />
+                </EditTemplate>
+            </PropertyColumn>
+
+            <PropertyColumn Property="gString => gString.UW.FullName" Title="Type">
+                <EditTemplate>
+                    <MudSelect id="_prefixdiameterselector" T="string" Value="context.Item.UW.FullName" Text="@context.Item.UW.FullName"
+                               ValueChanged="@(diameter => SelectPrefixDiameter(context.Item.Position, diameter))">
                         @foreach (var pd in PrefixDiameters)
                         {
                             <MudSelectItem Value="@(pd)">@pd</MudSelectItem>
                         }
                     </MudSelect>
-                </div>
-                <div class="col-2">
-                    <MudField id="_stringtensiondisplay" Label="@gString.TensionDisplay" />
-                </div>
-            </div>
-        }
+                </EditTemplate>
+            </PropertyColumn>
 
-        <div class="row">
-            <DisplayChartComponent StringSet="@StringSet" />
-        </div>
-    }
-</div>
+            <PropertyColumn Property="gString => gString.TensionDisplay" Title="Tension" />
+        </Columns>
+    </MudDataGrid>
+
+    <DisplayChartComponent StringSet="@StringSet" />
+}
 
 
 @code {
