@@ -2,7 +2,12 @@
 
 @rendermode InteractiveServer
 
-<MudChart ChartType="ChartType.Line" ChartSeries="@Series" @bind-SelectedIndex="Index" XAxisLabels="@XAxisLabels" Width="800px" Height="350px" ChartOptions="@Options" />
+<MudChart 
+    ChartType="ChartType.Line" 
+    ChartSeries="@Series" @bind-SelectedIndex="Index" 
+    XAxisLabels="@XAxisLabels" 
+    Height="350px" 
+    ChartOptions="@Options" />
 
 
 @code {
