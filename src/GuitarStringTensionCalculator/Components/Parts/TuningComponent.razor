@@ -6,6 +6,16 @@
 
 @rendermode InteractiveServer
 
+<style>
+    .mud-table-cell {
+        padding: 5px !important;
+    }
+
+    .mud-input > input.mud-input-root, div.mud-input-slot.mud-input-root {
+        padding: 10px 0 0px !important;
+    }
+</style>
+
 @if (StringSet is null)
 {
     <p><em>Loading...</em></p>
@@ -31,7 +41,7 @@ else
                 <EditTemplate>
                     <MudNumericField T="double" id="_stringlengthinch" Value="context.Item.Length_INCH" Label="@($"{Math.Round(@context.Item.Length_MM, 0)}mm")"
                                      ValueChanged="@(scaleLength => SetStringLength(context.Item.Position, scaleLength))"
-                                     Style="padding-top:5px;" />
+                                     Style="padding-top:3px;" />
                 </EditTemplate>
             </PropertyColumn>
 
@@ -47,7 +57,7 @@ else
                 </EditTemplate>
             </PropertyColumn>
 
-            <PropertyColumn Property="gString => gString.TensionDisplay" Title="Tension" />
+            <PropertyColumn Property="gString => gString.TensionDisplay" Title="Tension" IsEditable="false" />
         </Columns>
     </MudDataGrid>
 
