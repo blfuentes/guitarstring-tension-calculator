@@ -43,9 +43,9 @@ else
 }
 
 <div class="d-flex mud-width-full align-center mt-8">
-    <MudChip Color="Color.Primary">@(numberOfStrings?.ToString() ?? "number of strings")</MudChip>
-    <MudChip Color="Color.Secondary">@(scaleLength?.ToString() ?? "scale length")</MudChip>
-    <MudChip Color="Color.Tertiary">@(selectedTuning?.Name ?? "tuning")</MudChip>
+    <MudChip T="string" Color="Color.Primary">@(numberOfStrings?.ToString() ?? "number of strings")</MudChip>
+    <MudChip T="string" Color="Color.Secondary">@(scaleLength?.ToString() ?? "scale length")</MudChip>
+    <MudChip T="string" Color="Color.Tertiary">@(selectedTuning?.Name ?? "tuning")</MudChip>
 </div>
 
 @if (string.IsNullOrWhiteSpace(numberOfStrings) || string.IsNullOrWhiteSpace(scaleLength) || string.IsNullOrWhiteSpace(semitones))
